@@ -28,7 +28,12 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/users', user.findAll);
+app.get('/users/:name', user.findByName);
+app.post('/users', function(req, res){
+    console.log("He fet un POST.");
+    res.render('user', { title: req.body.name});
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
