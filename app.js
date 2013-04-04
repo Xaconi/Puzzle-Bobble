@@ -34,6 +34,9 @@ app.post('/users', function(req, res){
     console.log("He fet un POST.");
     res.render('user', { title: req.body.name});
 });
+app.post('/nameAvailable', user.nameAvailable);
+
+app.post('/register', user.register);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

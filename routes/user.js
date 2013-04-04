@@ -8,6 +8,9 @@
  */
 
 var mongo = require('mongodb');
+var crypto = require('crypto');
+var algorithm = 'aes256';
+var key = 'La vida 42';
 
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -63,6 +66,50 @@ exports.findByName = function(req, res) {
 exports.list = function(req, res){
   res.send("respond with a resource");
 };
+
+exports.register = function(req, res){
+    // Registre d'usuari nou
+
+    // Mirem si el que ens han entrat es correcte
+    var correctData = {};
+    correctData.email = isEmail(req.body.email);                                        // Verifiquem si es una direccio de correu
+
+    correctData.passLength = req.body.pass.length >= 8;                                 // Mirem que el password tingui 8 caràcters o més
+
+    var cipher = crypto.createCipher(algorithm,key);                                    // Mirem que el password i la repetició de password coincideixin
+    var encPass = cipher.update(req.body.pass, 'utf8','hex')+cipher.final('hex');
+    cipher = crypto.createCipher(algorithm,key);
+    var encPassc = cipher.update(req.body.passc, 'utf8','hex')+cipher.final('hex');
+    correctData.pass = encPass == encPassc;
+    console.log(correctData.pass);
+    res.send("respond with a resource");
+
+    // Crides a base de dades
+    if(correctData.pass && correctData.email && correctData.passLength) {
+        db.collection('user', function(err, collection) {
+            collection.insert({'name': req.body.nik, 'password' : encPassc, 'email' : req.body.email, 'date' : req.body.birthdate});
+        });
+    }
+};
+
+exports.nameAvailable = function(req, res) {
+    db.collection('user', function(err, collection) {
+        collection.findOne({'name':req.body.name}, function(err, item) {
+            if(item != null){
+                res.send({ name: item.name });
+            }
+            else
+            {
+                res.send({ name: "" });
+            }
+        });
+    });
+};
+
+function isEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
