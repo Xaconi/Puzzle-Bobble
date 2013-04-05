@@ -113,6 +113,7 @@ exports.login = function(req, res) {
                    res.send({ error: 'Contrasenya incorrecta. Si us plau, mira que sigui correcte.' });
                }
             }
+            db.close();
         });
     });
 };
