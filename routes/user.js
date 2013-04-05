@@ -92,6 +92,31 @@ exports.register = function(req, res){
     }
 };
 
+exports.login = function(req, res) {
+    var cipher = crypto.createCipher(algorithm,key);                                    // Mirem que el password i la repetició de password coincideixin
+    var encPass = cipher.update(req.body.password, 'utf8','hex')+cipher.final('hex');
+    db.collection('user', function(err, collection) {
+        collection.findOne({'name': req.body.name}, function(err, item) {
+            if(item == null){
+                // Cas nom malament
+                res.send({ error: 'Nom d\'usuari no trobat. Si us plau, mira que sigui correcte.' });
+            }
+            else
+            {
+                if(item.password == encPass){
+                   // Cas correcte
+                   res.send({missatge: "OK"});
+               }
+               else
+               {
+                   // Cas contrasenya malament
+                   res.send({ error: 'Contrasenya incorrecta. Si us plau, mira que sigui correcte.' });
+               }
+            }
+        });
+    });
+};
+
 exports.nameAvailable = function(req, res) {
     db.collection('user', function(err, collection) {
         collection.findOne({'name':req.body.name}, function(err, item) {
