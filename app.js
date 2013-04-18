@@ -34,6 +34,9 @@ app.post('/users', function(req, res){
     console.log("He fet un POST.");
     res.render('user', { title: req.body.name});
 });
+app.get('/joc', function(req, res){
+    res.render('joc');
+});
 app.post('/nameAvailable', user.nameAvailable);
 
 app.post('/register', user.register);
