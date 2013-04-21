@@ -36,7 +36,81 @@ db.open(function(err, db) {
     }
 });
 
+exports.register = function(req, res){ // Registre d'usuari nou
 
+    // Mirem si el que ens han entrat es correcte
+    var correctData = {};
+    correctData.email = isEmail(req.body.registerEmail);                      // Verifiquem si es una direccio de correu
+
+    correctData.passLength = req.body.registerPass.length >= 8;        // Mirem que el password tingui 8 caràcters o més
+
+    var cipher = crypto.createCipher(algorithm,key);    // Mirem que el password i la repetició de password coincideixin
+    var encPass = cipher.update(req.body.registerPass, 'utf8','hex')+cipher.final('hex'); //Per fer-ho, abans els
+    cipher = crypto.createCipher(algorithm,key);            //encriptem per no treballar amb el password sense encriptar
+    var encPassc = cipher.update(req.body.registerPass2, 'utf8','hex')+cipher.final('hex');
+    correctData.pass = encPass == encPassc;
+    console.log(correctData.pass);
+    res.send("respond with a resource");
+
+    // Crides a base de dades
+    if(correctData.pass && correctData.email && correctData.passLength) {  //Si és correcte inserim l'usuari a la bdd
+        db.collection('user', function(err, collection) {
+            collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
+        });
+    }
+};
+
+function isEmail(email) { //expressió regular que comprova que un email ho és
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+exports.login = function(req, res) {  //Funcio que inicia sessio d'un usuari registrat
+    var cipher = crypto.createCipher(algorithm,key);    // Mirem que el password i la repetició de password coincideixin
+    var encPass = cipher.update(req.body.loginPass, 'utf8','hex')+cipher.final('hex'); //Ho encriptem perque a la bdd
+    db.collection('user', function(err, collection) {                                           //també està encriptat
+        collection.findOne({'name': req.body.loginUser}, function(err, item) {
+            if(item == null){
+                // Cas nom malament
+                res.send({ error: 'Nom d\'usuari no trobat. Si us plau, mira que sigui correcte.' });
+            }
+            else
+            {
+                if(item.password == encPass){
+                    // Cas correcte
+                    res.send({missatge: "OK"});
+                }
+                else
+                {
+                    // Cas contrasenya malament
+                    res.send({ error: 'Contrasenya incorrecta. Si us plau, mira que sigui correcte.' });
+                }
+            }
+            db.close();
+        });
+    });
+};
+
+exports.nameAvailable = function(req, res) { //Funció que en serveix per que a mesura que es posa un nou nom d'usuari
+    db.collection('user', function(err, collection) {                                //es mira la seva disponibilitat
+        collection.findOne({'name':req.body.name}, function(err, item) {
+            if(item != null){
+                res.send({ name: item.name });
+            }
+            else
+            {
+                res.send({ name: "" });
+            }
+        });
+    });
+};
+
+
+/*************************************/
+/*************************************/
+/**************TEST*******************/
+/*************************************/
+/*************************************/
 /*
  * GET users listing.
  */
@@ -50,7 +124,6 @@ exports.findAll = function(req, res) {
 };
 
 // Funció per comprovar les dades dels usuaris...
-
 exports.findByName = function(req, res) {
     var name = req.params.name;
     console.log('Retrieving user: ' + name);
@@ -66,75 +139,6 @@ exports.findByName = function(req, res) {
 exports.list = function(req, res){
   res.send("respond with a resource");
 };
-
-exports.register = function(req, res){ // Registre d'usuari nou
-
-    // Mirem si el que ens han entrat es correcte
-    var correctData = {};
-    correctData.email = isEmail(req.body.registerEmail);                                        // Verifiquem si es una direccio de correu
-
-    correctData.passLength = req.body.registerPass.length >= 8;                                 // Mirem que el password tingui 8 caràcters o més
-
-    var cipher = crypto.createCipher(algorithm,key);                                    // Mirem que el password i la repetició de password coincideixin
-    var encPass = cipher.update(req.body.registerPass, 'utf8','hex')+cipher.final('hex');
-    cipher = crypto.createCipher(algorithm,key);
-    var encPassc = cipher.update(req.body.registerPass2, 'utf8','hex')+cipher.final('hex');
-    correctData.pass = encPass == encPassc;
-    console.log(correctData.pass);
-    res.send("respond with a resource");
-
-    // Crides a base de dades
-    if(correctData.pass && correctData.email && correctData.passLength) {
-        db.collection('user', function(err, collection) {
-            collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
-        });
-    }
-};
-
-exports.login = function(req, res) {
-    var cipher = crypto.createCipher(algorithm,key);                                    // Mirem que el password i la repetició de password coincideixin
-    var encPass = cipher.update(req.body.loginPass, 'utf8','hex')+cipher.final('hex');
-    db.collection('user', function(err, collection) {
-        collection.findOne({'name': req.body.loginUser}, function(err, item) {
-            if(item == null){
-                // Cas nom malament
-                res.send({ error: 'Nom d\'usuari no trobat. Si us plau, mira que sigui correcte.' });
-            }
-            else
-            {
-                if(item.password == encPass){
-                   // Cas correcte
-                   res.send({missatge: "OK"});
-               }
-               else
-               {
-                   // Cas contrasenya malament
-                   res.send({ error: 'Contrasenya incorrecta. Si us plau, mira que sigui correcte.' });
-               }
-            }
-            db.close();
-        });
-    });
-};
-
-exports.nameAvailable = function(req, res) {
-    db.collection('user', function(err, collection) {
-        collection.findOne({'name':req.body.name}, function(err, item) {
-            if(item != null){
-                res.send({ name: item.name });
-            }
-            else
-            {
-                res.send({ name: "" });
-            }
-        });
-    });
-};
-
-function isEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.

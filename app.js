@@ -27,22 +27,37 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+//Web principal de projecte
 app.get('/', function(req,res){
     res.render('inici');
 });
+
+//Registre d'un usuari
+app.post('/register', user.register);
+
+//Login d'un usuari
+app.post('/login', user.login);
+
+//Mira si un nom d'usuari està disponible
+app.post('/nameAvailable', user.nameAvailable);
+
+//Web del joc
+app.get('/game', function(req, res){
+    res.render('game');
+});
+
+//Web del joc per fer test (sense css)
+app.get('/joc', function(req, res){
+    res.render('joc');
+});
+
+//Proves
 app.get('/users', user.findAll);
 app.get('/users/:name', user.findByName);
 app.post('/users', function(req, res){
     console.log("He fet un POST.");
     res.render('user', { title: req.body.name});
 });
-app.get('/joc', function(req, res){
-    res.render('joc');
-});
-app.post('/nameAvailable', user.nameAvailable);
-
-app.post('/register', user.register);
-app.post('/login', user.login);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
