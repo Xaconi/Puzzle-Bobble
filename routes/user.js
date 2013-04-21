@@ -67,19 +67,18 @@ exports.list = function(req, res){
   res.send("respond with a resource");
 };
 
-exports.register = function(req, res){
-    // Registre d'usuari nou
+exports.register = function(req, res){ // Registre d'usuari nou
 
     // Mirem si el que ens han entrat es correcte
     var correctData = {};
-    correctData.email = isEmail(req.body.email);                                        // Verifiquem si es una direccio de correu
+    correctData.email = isEmail(req.body.registerEmail);                                        // Verifiquem si es una direccio de correu
 
-    correctData.passLength = req.body.pass.length >= 8;                                 // Mirem que el password tingui 8 caràcters o més
+    correctData.passLength = req.body.registerPass.length >= 8;                                 // Mirem que el password tingui 8 caràcters o més
 
     var cipher = crypto.createCipher(algorithm,key);                                    // Mirem que el password i la repetició de password coincideixin
-    var encPass = cipher.update(req.body.pass, 'utf8','hex')+cipher.final('hex');
+    var encPass = cipher.update(req.body.registerPass, 'utf8','hex')+cipher.final('hex');
     cipher = crypto.createCipher(algorithm,key);
-    var encPassc = cipher.update(req.body.passc, 'utf8','hex')+cipher.final('hex');
+    var encPassc = cipher.update(req.body.registerPass2, 'utf8','hex')+cipher.final('hex');
     correctData.pass = encPass == encPassc;
     console.log(correctData.pass);
     res.send("respond with a resource");
@@ -87,16 +86,16 @@ exports.register = function(req, res){
     // Crides a base de dades
     if(correctData.pass && correctData.email && correctData.passLength) {
         db.collection('user', function(err, collection) {
-            collection.insert({'name': req.body.nik, 'password' : encPassc, 'email' : req.body.email, 'date' : req.body.birthdate});
+            collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
         });
     }
 };
 
 exports.login = function(req, res) {
     var cipher = crypto.createCipher(algorithm,key);                                    // Mirem que el password i la repetició de password coincideixin
-    var encPass = cipher.update(req.body.password, 'utf8','hex')+cipher.final('hex');
+    var encPass = cipher.update(req.body.loginPass, 'utf8','hex')+cipher.final('hex');
     db.collection('user', function(err, collection) {
-        collection.findOne({'name': req.body.name}, function(err, item) {
+        collection.findOne({'name': req.body.loginUser}, function(err, item) {
             if(item == null){
                 // Cas nom malament
                 res.send({ error: 'Nom d\'usuari no trobat. Si us plau, mira que sigui correcte.' });

@@ -27,7 +27,9 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get('/', function(req,res){
+    res.render('inici');
+});
 app.get('/users', user.findAll);
 app.get('/users/:name', user.findByName);
 app.post('/users', function(req, res){

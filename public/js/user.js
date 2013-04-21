@@ -12,10 +12,10 @@ var min_chars = 4;      // Mínim de caràcters que fan falta per comprovar la d
 $(document).ready(function() {
     $('#nik').keyup(function(event){
         //run the character number check
-        if($('#nik').val().length < min_chars){
+        if($("[name='register-user']").val().length < min_chars){
             // ...
         }else{
-            mirarDisponibilitat($('#nik').val());
+            //mirarDisponibilitat($("[name='register-user']").val());
         }
     });
 });

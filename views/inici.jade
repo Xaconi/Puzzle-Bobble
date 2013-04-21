@@ -1,0 +1,64 @@
+!!! 5
+head
+    meta(charset='UTF-8')
+    title GrungeSet- Home
+    link(rel='icon', href='images/favicon.gif', type='image/x-icon')
+    link(href='../css/popup.css', rel='stylesheet')
+    link(rel='shortcut icon', href='images/favicon.gif', type='image/x-icon')
+    link(rel='stylesheet', type='text/css', href='../css/styles.css')
+    script(src='http://code.jquery.com/jquery-1.9.1.js')
+    body
+        #container
+            .containerHeader
+                h1#title.fontface
+                    #cabecera(style='font: 150px/180px \'BoycottRegular\', Arial, sans-serif;')
+                        span.orange ULTIMATE
+                        br
+                        span.pink PUZZLE
+                        span.green BUBBLE
+            h2#description2.fontface(style='margin-top: 250px;')
+                span.black
+                    | The ultimate HTML5 project. Just start, play, brake your records and enjoy of this completely new online experience!
+            h2#login-register.fontface(style='margin-top: 10px;')
+                a(href='#overlay')
+                    span.blue Login / Register
+        #overlay
+            #popup.fontface
+                a(href='')
+                    img.close_button(src='../images/close.png')
+                #popup-login.fontface
+                    form.login(action='/login', method='post')
+                        h2#description3.fontface(style='margin-bottom: 20px;')
+                            span.green Login
+                        label Username
+                        input.input(type='text', name='loginUser', id='login-user', tabindex='1', required='required', style='margin-left: 7px;')
+                        br
+                        br
+                        label Password
+                        input.input(type='password', name='loginPass', id='login-pass',tabindex='2', required='required')
+                        br
+                        br
+                        input#submitbtn-login(type='submit', value='Sign In', tabindex='3')
+                #popup-register.fontface(style='position: absolute; left: 42%;')
+                    form.login(action='/register', method='post')
+                        h2#description.fontface(style='margin-bottom: 20px; margin-left: 150px;')
+                            span.green Register
+                        label Username
+                        input.input(type='text', tabindex='4', name='registerUser', required='required', style='margin-left: 7px; width: 150px;')
+                        br
+                        br
+                        label(style='position: absolute; top: 99px; left: 278px;') E-Mail
+                        input.input(type='email', tabindex='5', name='registerEmail',required='required', style='margin-left: 7px; width: 150px; position: absolute; top: 90px; left: 347px;')
+                        label Password
+                        input.input(type='password', tabindex='6', name='registerPass',required='required', style='margin-left: 5px; width: 150px;')
+                        br
+                        br
+                        label(style='font: 14px/18px \'BoycottRegular\', Arial, sans-serif; position: absolute; top: 149px; left: 279px; width: 80px;') Repeat Password
+                        input.input(type='password', tabindex='7', name='registerPass2',required='required', style='margin-left: 5px; width: 150px; position: absolute; top: 147px; left: 349px;')
+                        br
+                        br
+                        label(style='position: absolute; top: 214px;') Date of Birth
+                        input.input(type='date', tabindex='8', name='registerBirth',required='required', style='width: 170px; position: absolute; top: 202px; left: 160px;')
+                        br
+                        br
+                        input#submitbtn-register(type='submit', value='Sign Up', tabindex='9', style='position: absolute; top: 204px; left: 215px;')
