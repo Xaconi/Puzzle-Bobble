@@ -1,32 +1,29 @@
 /*
- * play screen
+ * Unica pantalla de joc
  */
 var PlayScreen = me.ScreenObject.extend(
-{
-	/*
-	 * action to perform when game starts
-	 */
-	onResetEvent: function()
-	{
-		// add parallax background
-		me.game.add(new BackgroundObject(), 1);
-	
-		// add main player
-		//var ship = new PlayerEntity(100, 265);
-		//me.game.add(ship, 10);
-		
-		var arrow = new PlayerEntity(125, 360);
-		me.game.add(arrow, 10);
+    {
+        /*
+         * Accions que s'executen a l'inciar el joc
+         */
+        onResetEvent: function()
+        {
+            // Afegir fons
+            me.game.add(new BackgroundObject(), 1);
 
-		// make sure everything is in the right order
-		me.game.sort();
-	},
+            // Creem la fletxa de disparar
+            var arrow = new PlayerEntity(125, 360);
+            me.game.add(arrow, 10);
 
-    /*
-     * action to perform when game is finished (state change)
-     */
-	onDestroyEvent: function() {
-		// remove the HUD
-		//me.game.disableHUD();
-	}
-});
+            // Assegurem que tot està en ordre
+            me.game.sort();
+        },
+
+        /*
+         * Accions que s'executen al finalitzar el joc
+         */
+        onDestroyEvent: function() {
+            // remove the HUD
+            //me.game.disableHUD();
+        }
+    });
