@@ -18,7 +18,6 @@ var g_resources = [
      {name: "implosion", type:"image", src: "../../images/joc/implosion.png"}
 ];
 
-
 var jsApp =
 {
     /*
