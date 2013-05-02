@@ -2,6 +2,8 @@
  *	Definció de constants
  */
 
+me.game.firstTime = 0 ;    	// Si el el primer instant le la partida
+
 me.game.mutex = 0 ;   		// Mutex per no tirar més d'una bola, o quan hi ha game over
 
 me.game.BALL_OBJECT = 1;	// Tipus d'objecte bola
@@ -9,6 +11,11 @@ me.game.BALL_OBJECT = 1;	// Tipus d'objecte bola
 me.game.midaImatge = 32;	// Mida de la imatge de la bola
 
 me.game.posicions = new Array(10);	// Array amb totes les posicions possibles de les boles
+
+me.game.bolaActual = null ;
+
+me.game.score = 0;          // Puntuació al joc
+
 
 // Inicialització de les matrius que contenen les posicions en pixels de les boles i si aquestes estan ocupades
 me.game.boles = new Array(10);
@@ -19,11 +26,41 @@ for(var i=0; i<me.game.posicions.length; i++){
         me.game.posicions[i][j] = new Array(2);
         me.game.boles[i][j] = null;
         me.game.posicions[i][j][0] = j*32;
-        if(i % 2 == 1) me.game.posicions[i][j][0] += 12;
+        if(i % 2 == 1) me.game.posicions[i][j][0] += 16;
         me.game.posicions[i][j][1] = i*32;
         me.game.boles[i][j] = null;
     }
 }
+
+
+var barEntity = me.ObjectEntity.extend(
+    {
+        /*
+         * constructor
+         */
+        init: function(x, y)
+        {
+            // crida del constructor pare
+            this.parent(x, y, {image: "bar"});
+
+            // fixa la velocitat
+            this.setVelocity(0, 0);
+
+            // fixa la gravetat
+            this.gravity = 0;
+
+            // fixa si es un objecte colisionable
+            this.collidable = false;
+
+        },
+
+        /*
+         * Actualitzar la posició del juegar
+         */
+        update: function()
+        {
+        }
+    });
 
 /*
  * Entitat jugador
@@ -45,7 +82,8 @@ var PlayerEntity = me.ObjectEntity.extend(
             this.gravity = 0;
 
             // fixa si es un objecte colisionable
-            this.collidable = true;
+            this.collidable = false;
+
         },
 
         /*
@@ -53,18 +91,38 @@ var PlayerEntity = me.ObjectEntity.extend(
          */
         update: function()
         {
+
+            // Possar boles aleatoriament al inici
+            if( me.game.firstTime == 0 ){
+                for(var i=0; i<4; i++){
+                    for(var j=0; j<9; j++){
+                        var aux = 1;
+                        //(if(i%2 == 1) aux = -1;
+                        var ball = new BallEntity(me.game.posicions[i][j][0]+j/2, me.game.posicions[i][j][1]+1*i*2, 2, 1);
+                        me.game.add(ball,this.z);
+                    }
+                }
+                me.game.bolaActual = new BallEntity(136, 464, 0, 0);
+                me.game.bolaActual.collidable = false;
+                me.game.add(me.game.bolaActual,this.z);
+                me.game.sort();
+                me.game.firstTime = 1 ;
+            }
+
+
+
             // mou esquerra
             if (me.input.isKeyPressed("left"))
             {
                 // Moviment angular de la fletxa
-                if(this.angle > -1.5) this.angle -= this.accel.x * me.timer.tick * 0.005;
+                if(this.angle > -1.1) this.angle -= this.accel.x * me.timer.tick * 0.01;
 
             }
             // mou dreta
             else if (me.input.isKeyPressed("right"))
             {
                 // Moviment angular de la fletxa
-                if(this.angle < 1.5) this.angle += this.accel.x * me.timer.tick * 0.005;
+                if(this.angle < 1.2) this.angle += this.accel.x * me.timer.tick * 0.01;
 
             }
             else
@@ -73,10 +131,12 @@ var PlayerEntity = me.ObjectEntity.extend(
             // mou adalt
             if (me.input.isKeyPressed("up"))
             {
+                this.angle = 0;
             }
             // mou abaix
             else if (me.input.isKeyPressed("down"))
             {
+                this.angle = 0;
             }
             else
                 this.vel.y = 0;
@@ -87,8 +147,18 @@ var PlayerEntity = me.ObjectEntity.extend(
                 if( me.game.mutex == 0 ){
 
                     // crea una entitat bola
+                    me.game.bolaActual.collidable = true;
                     var conv = (this.angle * 90) / 1.5749999999999995 ;	// Calcular els graus
-                    var ball = new BallEntity(134, 384, conv);
+                    me.game.bolaActual.speed = 8 ;
+                    var a = Math.round(conv*100)/100;
+                    if(a == 0){
+                        me.game.bolaActual.alpha = -360;
+                        me.game.bolaActual.angle = (-360*Math.PI)/180;
+                    }else{
+                        me.game.bolaActual.alpha = a;
+                        me.game.bolaActual.angle = (me.game.bolaActual.alpha*Math.PI)/180;
+                    }
+                    //var ball = new BallEntity(136, 464, conv, 0);
                     me.game.mutex = 1 ;
                     me.game.add(ball,this.z);
                     me.game.sort();
@@ -125,15 +195,17 @@ var BallEntity = me.ObjectEntity.extend(
         // 2 - Blue
         // 3 - Red
         // 4 - Green
+        falling : false,
 
         /*
          * constructor
          */
-        init: function(x, y, a)
+        init: function(x, y, a, v)
         {
 
             //Definim el color de la bola
             var settings = {};
+            this.speed = v ;
             this.color = Math.floor(Math.random()*5);
             if(this.color == 0) settings.image = "ballYellow";
             else if(this.color == 1) settings.image = "ballBlack";
@@ -220,10 +292,10 @@ var BallEntity = me.ObjectEntity.extend(
          */
         checkColisio : function()
         {
-            var res = me.game.collide(this);
-            if (((res && res.obj.type == me.game.BALL_OBJECT) || this.pos.y < 0) && this.pos.y < 305) // Si la posicio de la bola no sobrepasa el limit inferior permes
+            var res = me.game.collide(this) ;
+
+            if (((res && res.obj.type == me.game.BALL_OBJECT && !res.falling ) || this.pos.y < 0) && this.pos.y < 305) // Si la posicio de la bola no sobrepasa el limit inferior permes
             {
-                me.game.mutex = 0 ;
                 var fila = (Math.floor(this.pos.y/this.image.height)*this.image.height)/this.image.height;
                 if(fila != -1) var pos = this.calcularXocMig(fila);
                 // Si es detecta que hi ha un posició lliure molt a prop de la colisió, i en mig de dues boles, es posa la bola allà
@@ -236,7 +308,8 @@ var BallEntity = me.ObjectEntity.extend(
                     this.stop = true;
                 }
                 // Altrament, es mira la posició lliure més vàlida, i es posa la bola allà
-                else{
+                else
+                {
                     var dif = 100000000;
                     var posX, posY;
                     var x, y
@@ -259,11 +332,19 @@ var BallEntity = me.ObjectEntity.extend(
                     this.stop = true;
                 }
                 // Mirem si la bola passa a formar part d'un grup de tres boles o més del mateix color
-                var res = this.mirarGrup(new Array());
-                if(res.nombre >= 3){
-                    // Si es el cas, eliminem tot el grup
-                    this.eliminarGrup(res);
+                if( me.game.firstTime == 1 && me.game.mutex == 1 ){
+                    var res = this.mirarGrup(new Array());
+                    if(res.nombre >= 3){
+                        // Si es el cas, eliminem tot el grup
+                        this.eliminarGrup(res);
+                    }
+                    me.game.bolaActual = new BallEntity(136, 464, 0, 0);
+                    me.game.bolaActual.collidable = false;
+                    me.game.add(me.game.bolaActual,this.z);
+                    me.game.sort();
                 }
+                me.game.mutex = 0 ;
+
             }
             // Altrament, si la bola sobrepassa el límit inferior, mirem si a prop hi han dues boles amb un espai al mig per posar la nostra bola allà
             else if((res && res.obj.type == me.game.BALL_OBJECT) && this.pos.y >= 305)
@@ -279,13 +360,15 @@ var BallEntity = me.ObjectEntity.extend(
                     }
                     else{
                         alert("GAME OVER");
-                        me.game.remove(this);
+                        me.game.bolaActual.remove();
+                        tractarRecord(me.game.score);
                     }
                 }
                 // Si la posició es masssa a sota de la pantalla, s'acaba la partida
                 else{
                     alert("GAME OVER");
-                    me.game.remove(this);
+                    me.game.bolaActual.remove();
+                    tractarRecord(me.game.score);
                 }
             }
         },
@@ -450,6 +533,10 @@ var BallEntity = me.ObjectEntity.extend(
                 me.game.boles[resposta.llista[i].x][resposta.llista[i].y] = null;
                 i++;
             }
+            this.mirarBolesSenseSoport();
+            me.game.score = parseInt($('#score').text().replace("Score = ",""));
+            me.game.score += resposta.nombre*100*((resposta.nombre-2)*0.5);
+            $('#score').text("Score = " + me.game.score);
         },
         /*
          * Sobreescriu la funció d'eliminar una bola del motor
@@ -479,6 +566,137 @@ var BallEntity = me.ObjectEntity.extend(
                 k++;
             }
             return trobat;
+        },
+
+        //Mirar Grup Sense Color
+        mirarGrupSenseColor : function(llista)
+        {
+            var grup = 0;
+            llista[llista.length] = {};
+            llista[llista.length-1].x = this.x;
+            llista[llista.length-1].y = this.y;
+            var i = this.x;
+            var j = this.y;
+            var resultat = {};
+            resultat.llista = llista;
+            resultat.nombre = 1;
+            var aux;
+            if(i % 2 == 0){
+                if(i != 0 &&  me.game.boles[i-1][j] != null && !this.mirarLlistaPosicions(i-1,j,llista)){
+                    aux = me.game.boles[i-1][j].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(j != 0 && me.game.boles[i][j-1] != null && !this.mirarLlistaPosicions(i,j-1,llista)) {
+                    aux = me.game.boles[i][j-1].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(i != 0 && j != 0 && me.game.boles[i-1][j-1] != null && !this.mirarLlistaPosicions(i-1,j-1,llista)){
+                    aux = me.game.boles[i-1][j-1].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(i != 9 && me.game.boles[i+1][j] != null && !this.mirarLlistaPosicions(i+1,j,llista)){
+                    aux = me.game.boles[i+1][j].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(j != 9 && me.game.boles[i][j+1] != null && !this.mirarLlistaPosicions(i,j+1,llista)){
+                    aux = me.game.boles[i][j+1].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(i != 9 && j != 0 && me.game.boles[i+1][j-1] != null && !this.mirarLlistaPosicions(i+1,j-1,llista)){
+                    aux = me.game.boles[i+1][j-1].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+            }else{
+                if(i != 0 &&  me.game.boles[i-1][j] != null && !this.mirarLlistaPosicions(i-1,j,llista)){
+                    aux = me.game.boles[i-1][j].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(j != 0 && me.game.boles[i][j-1] != null && !this.mirarLlistaPosicions(i,j-1,llista)) {
+                    aux = me.game.boles[i][j-1].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(i != 9 && me.game.boles[i+1][j] != null && !this.mirarLlistaPosicions(i+1,j,llista)){
+                    aux = me.game.boles[i+1][j].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(j != 9 && me.game.boles[i][j+1] != null && !this.mirarLlistaPosicions(i,j+1,llista)){
+                    aux = me.game.boles[i][j+1].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(i != 9 && j != 9 && me.game.boles[i+1][j+1] != null && !this.mirarLlistaPosicions(i+1,j+1,llista)){
+                    aux = me.game.boles[i+1][j+1].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+                if(i != 0 && j != 9 && me.game.boles[i-1][j+1] != null && !this.mirarLlistaPosicions(i-1,j+1,llista)){
+                    aux = me.game.boles[i-1][j+1].mirarGrupSenseColor(llista);
+                    resultat.nombre += aux.nombre;
+                    resultat.llista = aux.llista;
+                }
+            }
+            return resultat;
+        },
+
+        //Mirar Grup Sense Color
+        mirarBolesSenseSoport : function( )
+        {
+            var aux = [] ;
+            aux.llista = new Array() ;
+            aux.nombre = 1 ;
+            var resultat = [];
+            resultat.llista = new Array() ;
+            resultat.nombre = 1 ;
+            //for(var i=0; i<me.game.posicions.length; i++)
+            for(var i=0; i<me.game.posicions.length; i++)
+            {
+                if( typeof me.game.boles[0][i] != 'undefined' && me.game.boles[0][i] != null )
+                {
+                    aux = me.game.boles[0][i].mirarGrupSenseColor(new Array());
+                    resultat.llista = resultat.llista.concat(aux.llista);
+                    resultat.nombre += aux.nombre ;
+                }
+
+            }
+
+            for(var i=0; i<me.game.posicions.length; i++)
+            {
+                for(var j=0; j<me.game.posicions.length; j++)
+                {
+                    if(  typeof me.game.boles[i][j] != 'undefined' && me.game.boles[i][j] != null && !this.mirarLlistaPosicions(i,j,resultat.llista) )
+                    {
+                        // Objecte amb colisions
+                        me.game.boles[i][j].collidable = false ;
+                        me.game.boles[i][j].falling = true ;
+                        me.game.boles[i][j].speed = -5 ;
+
+                        me.game.boles[i][j].alpha = -360;
+                        me.game.boles[i][j].angle = (-360*Math.PI)/180;
+
+
+                        // Inicialitzem la gravetat
+                        me.game.boles[i][j].gravity = 0;
+
+                        // Inicialitzem la velocitat
+                        me.game.boles[i][j].setVelocity(1, 1);
+                        me.game.boles[i][j].stop = false ;
+
+
+
+                        //me.game.boles[i][j].remove();
+                        me.game.boles[i][j] = null;
+                    }
+                }
+            }
         }
     });
 
@@ -493,8 +711,8 @@ var BackgroundLayer = me.ImageLayer.extend(
         init: function(image, speed)
         {
             name = image;
-            width = 1000;
-            height = 450;
+            width = 304;
+            height = 500;
             z = 1;
             ratio = 1;
             this.speed = speed;

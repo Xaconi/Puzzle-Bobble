@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , record = require('./routes/record')
   , http = require('http')
   , path = require('path');
 
@@ -18,7 +19,9 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
+  app.use(express.cookieParser());
   app.use(express.methodOverride());
+  app.use(express.session({secret: 'La vida 42'}));
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -40,6 +43,9 @@ app.post('/login', user.login);
 
 //Mira si un nom d'usuari està disponible
 app.post('/nameAvailable', user.nameAvailable);
+
+//Mira si un nom d'usuari està disponible
+app.post('/inserirRecord', record.inserirRecord);
 
 //Web del joc
 app.get('/game', function(req, res){

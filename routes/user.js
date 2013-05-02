@@ -11,6 +11,7 @@ var mongo = require('mongodb');
 var crypto = require('crypto');
 var algorithm = 'aes256';
 var key = 'La vida 42';
+var user_ID;
 
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -49,13 +50,22 @@ exports.register = function(req, res){ // Registre d'usuari nou
     cipher = crypto.createCipher(algorithm,key);            //encriptem per no treballar amb el password sense encriptar
     var encPassc = cipher.update(req.body.registerPass2, 'utf8','hex')+cipher.final('hex');
     correctData.pass = encPass == encPassc;
-    console.log(correctData.pass);
-    res.send("respond with a resource");
+    // console.log(correctData.pass);
 
     // Crides a base de dades
     if(correctData.pass && correctData.email && correctData.passLength) {  //Si és correcte inserim l'usuari a la bdd
         db.collection('user', function(err, collection) {
-            collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
+            collection.findOne({'name': req.body.registerUser}, function(err, item) {
+                if(item == null){
+                    collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
+                    collection.findOne({'name': req.body.registerUser}, function(err, item) {
+                        req.session.id = item._id;
+                        console.log(item._id);
+                        console.log(req.session.id);
+                        res.render('game');
+                    });
+                }
+            });
         });
     }
 };
@@ -77,8 +87,12 @@ exports.login = function(req, res) {  //Funcio que inicia sessio d'un usuari reg
             else
             {
                 if(item.password == encPass){
+                    req.session.id = item._id;
+                    console.log(item._id);
+                    console.log(req.session.id);
+                    res.render('game');
                     // Cas correcte
-                    res.send({missatge: "OK"});
+                    //console.log(item._id);
                 }
                 else
                 {

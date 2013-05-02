@@ -15,7 +15,8 @@ var g_resources = [
      {name: "ballBlue", type:"image", src: "../../images/joc/ballBlue.png"},
      {name: "ballRed", type:"image", src: "../../images/joc/ballRed.png"},
      {name: "ballGreen", type:"image", src: "../../images/joc/ballGreen.png"},
-     {name: "implosion", type:"image", src: "../../images/joc/implosion.png"}
+     {name: "implosion", type:"image", src: "../../images/joc/implosion.png"},
+     {name: "bar", type:"image", src: "../../images/joc/bar.png"}
 ];
 
 var jsApp =
@@ -26,7 +27,7 @@ var jsApp =
     onload: function()
     {
         // Inicialització
-        if (!me.video.init("jsapp", 300, 400))
+        if (!me.video.init("jsapp", 304, 500))
         {
             alert("Sorry but your browser does not support html 5 canvas. Please try with another one!");
             return;

@@ -12,9 +12,11 @@ var PlayScreen = me.ScreenObject.extend(
             me.game.add(new BackgroundObject(), 1);
 
             // Creem la fletxa de disparar
-            var arrow = new PlayerEntity(125, 360);
+            var arrow = new PlayerEntity(102, 430);
             me.game.add(arrow, 10);
 
+            var bar = new barEntity(0, 325);
+            me.game.add(bar, 10);
             // Assegurem que tot està en ordre
             me.game.sort();
         },
