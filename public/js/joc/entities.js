@@ -96,8 +96,6 @@ var PlayerEntity = me.ObjectEntity.extend(
             if( me.game.firstTime == 0 ){
                 for(var i=0; i<4; i++){
                     for(var j=0; j<9; j++){
-                        var aux = 1;
-                        //(if(i%2 == 1) aux = -1;
                         var ball = new BallEntity(me.game.posicions[i][j][0]+j/2, me.game.posicions[i][j][1]+1*i*2, 2, 1);
                         me.game.add(ball,this.z);
                     }
@@ -533,10 +531,40 @@ var BallEntity = me.ObjectEntity.extend(
                 me.game.boles[resposta.llista[i].x][resposta.llista[i].y] = null;
                 i++;
             }
-            this.mirarBolesSenseSoport();
+            var nBolesCauen = this.mirarBolesSenseSoport();
+            var bonus = 0 ;
+            if( !this.hiHaAlmenysUna() ){  // si no queden boles, donem un bonus de punts i tornem a omplir
+                bonus = 50000;
+                for(var i=0; i<4; i++){
+                    for(var j=0; j<9; j++){
+                        var ball = new BallEntity(me.game.posicions[i][j][0]+j/2, me.game.posicions[i][j][1]+1*i*2, 2, 1);
+                        me.game.add(ball,this.z);
+                    }
+                }
+                me.game.sort();
+            }
+            //Actualitzem la puntuacio a la vista
             me.game.score = parseInt($('#score').text().replace("Score = ",""));
-            me.game.score += resposta.nombre*100*((resposta.nombre-2)*0.5);
+            me.game.score += resposta.nombre*100*((resposta.nombre-2)*0.5) + nBolesCauen*100*nBolesCauen*0.5 + bonus ;
             $('#score').text("Score = " + me.game.score);
+        },
+
+        /*
+         * Mira si almenys hi ha una bola en el joc, per tal de tornar d'omplir la pantalla
+         */
+        hiHaAlmenysUna: function()
+        {
+            var i = 0;
+            var j = 0;
+            var hiHaAlmenysUna = false ;
+            while( i < me.game.posicions.length && !hiHaAlmenysUna ){
+                while( j< me.game.posicions.length && !hiHaAlmenysUna ){
+                    hiHaAlmenysUna = hiHaAlmenysUna || me.game.boles[i][j] != null ;
+                    j++;
+                }
+                i++;
+            }
+            return hiHaAlmenysUna ;
         },
         /*
          * Sobreescriu la funció d'eliminar una bola del motor
@@ -568,7 +596,9 @@ var BallEntity = me.ObjectEntity.extend(
             return trobat;
         },
 
-        //Mirar Grup Sense Color
+        /*
+         * Mira un grup sense tenir en compte el color
+         */
         mirarGrupSenseColor : function(llista)
         {
             var grup = 0;
@@ -647,16 +677,18 @@ var BallEntity = me.ObjectEntity.extend(
             return resultat;
         },
 
-        //Mirar Grup Sense Color
+        /*
+         * Mira si hi ha boles en el tauler sense un sopor superior (estan flotant)
+         */
         mirarBolesSenseSoport : function( )
         {
+            var nBoles = 0 ;
             var aux = [] ;
             aux.llista = new Array() ;
             aux.nombre = 1 ;
             var resultat = [];
             resultat.llista = new Array() ;
             resultat.nombre = 1 ;
-            //for(var i=0; i<me.game.posicions.length; i++)
             for(var i=0; i<me.game.posicions.length; i++)
             {
                 if( typeof me.game.boles[0][i] != 'undefined' && me.game.boles[0][i] != null )
@@ -674,7 +706,7 @@ var BallEntity = me.ObjectEntity.extend(
                 {
                     if(  typeof me.game.boles[i][j] != 'undefined' && me.game.boles[i][j] != null && !this.mirarLlistaPosicions(i,j,resultat.llista) )
                     {
-                        // Objecte amb colisions
+                       /* // Objecte amb colisions
                         me.game.boles[i][j].collidable = false ;
                         me.game.boles[i][j].falling = true ;
                         me.game.boles[i][j].speed = -5 ;
@@ -688,15 +720,15 @@ var BallEntity = me.ObjectEntity.extend(
 
                         // Inicialitzem la velocitat
                         me.game.boles[i][j].setVelocity(1, 1);
-                        me.game.boles[i][j].stop = false ;
+                        me.game.boles[i][j].stop = false ;*/
 
-
-
-                        //me.game.boles[i][j].remove();
+                        me.game.boles[i][j].remove();
                         me.game.boles[i][j] = null;
+                        nBoles++;
                     }
                 }
             }
+            return nBoles ;
         }
     });
 
