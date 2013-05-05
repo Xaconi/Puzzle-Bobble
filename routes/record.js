@@ -6,9 +6,18 @@
  * To change this template use File | Settings | File Templates.
  */
 
-exports.inserirRecord = function(req, res){ // Registre d'un nou record d'usuari
+// Registre d'un nou record d'usuari
+exports.inserirRecord = function(req, res){
     db.collection('record', function(err, collection) {
         collection.insert({ 'score': req.body.record, 'user_id' : req.session.id, 'date' : req.body.time });
+        console.log("He entrat");
+    });
+};
+
+// Select dels millors records - NO ACABAT
+exports.recollirRecordsTotals = function(req, res){
+    db.collection('record', function(err, collection) {
+        collection.find({ 'score': req.body.record, 'user_id' : req.session.id, 'date' : req.body.time });
         console.log("He entrat");
     });
 };

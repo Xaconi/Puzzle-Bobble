@@ -7,6 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
+// Dades de connexió i gestió amb la base de dades local
 var mongo = require('mongodb');
 var crypto = require('crypto');
 var algorithm = 'aes256';
@@ -37,7 +38,8 @@ db.open(function(err, db) {
     }
 });
 
-exports.register = function(req, res){ // Registre d'usuari nou
+// Funció per registrar un usuari
+exports.register = function(req, res){
 
     // Mirem si el que ens han entrat es correcte
     var correctData = {};
@@ -59,9 +61,8 @@ exports.register = function(req, res){ // Registre d'usuari nou
                 if(item == null){
                     collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
                     collection.findOne({'name': req.body.registerUser}, function(err, item) {
-                        req.session.id = item._id;
-                        console.log(item._id);
-                        console.log(req.session.id);
+                        req.session.id = item._id;      // Guardem el ID de l'usuari com ID de la sessió per comprovar
+                                                        // en tot moment que estem tractant amb el mateix usuari
                         res.render('game');
                     });
                 }
@@ -75,7 +76,8 @@ function isEmail(email) { //expressió regular que comprova que un email ho és
     return re.test(email);
 }
 
-exports.login = function(req, res) {  //Funcio que inicia sessio d'un usuari registrat
+// Funció de login d'un usuari registrat
+exports.login = function(req, res) {
     var cipher = crypto.createCipher(algorithm,key);    // Mirem que el password i la repetició de password coincideixin
     var encPass = cipher.update(req.body.loginPass, 'utf8','hex')+cipher.final('hex'); //Ho encriptem perque a la bdd
     db.collection('user', function(err, collection) {                                           //també està encriptat

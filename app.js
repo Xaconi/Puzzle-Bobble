@@ -47,6 +47,9 @@ app.post('/nameAvailable', user.nameAvailable);
 //Mira si un nom d'usuari està disponible
 app.post('/inserirRecord', record.inserirRecord);
 
+// Torna els 10 millors records globals de l'Ultimate Puzzle Bobble
+app.get('/recollirRecordsTotals', record.recollirRecordsTotals);
+
 //Web del joc
 app.get('/game', function(req, res){
     res.render('game');
