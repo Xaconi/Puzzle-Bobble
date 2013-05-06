@@ -360,6 +360,7 @@ var BallEntity = me.ObjectEntity.extend(
 
 
                         // Mirem si la bola passa a formar part d'un grup de tres boles o més del mateix color
+
                         if( me.game.firstTime == 1 && me.game.mutex == 1 ){
                             var res = this.mirarGrup(new Array());
                             if(res.nombre >= 3){
