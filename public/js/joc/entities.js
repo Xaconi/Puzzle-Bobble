@@ -354,7 +354,25 @@ var BallEntity = me.ObjectEntity.extend(
                         this.pos.x = pos.x;
                         this.pos.y = pos.y;
                         me.game.boles[9][pos.pos] = this;
+                        this.x = 9;
+                        this.y = pos.pos;
                         this.stop = true;
+
+
+                        // Mirem si la bola passa a formar part d'un grup de tres boles o més del mateix color
+                        if( me.game.firstTime == 1 && me.game.mutex == 1 ){
+                            var res = this.mirarGrup(new Array());
+                            if(res.nombre >= 3){
+                                // Si es el cas, eliminem tot el grup
+                                this.eliminarGrup(res);
+                            }
+                            me.game.bolaActual = new BallEntity(136, 464, 0, 0);
+                            me.game.bolaActual.collidable = false;
+                            me.game.add(me.game.bolaActual,this.z);
+                            me.game.sort();
+                        }
+                        me.game.mutex = 0 ;
+
                     }
                     else{
                         alert("GAME OVER");
