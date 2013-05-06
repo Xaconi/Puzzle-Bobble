@@ -380,6 +380,7 @@ var BallEntity = me.ObjectEntity.extend(
                         me.game.bolaActual.remove();
                         tractarRecord(me.game.score);
                     }
+
                 }
                 // Si la posició es masssa a sota de la pantalla, s'acaba la partida
                 else{
