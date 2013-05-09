@@ -376,7 +376,6 @@ var BallEntity = me.ObjectEntity.extend(
 
                     }
                     else{
-                        alert("GAME OVER");
                         me.game.bolaActual.remove();
                         tractarRecord(me.game.score);
 
@@ -389,7 +388,6 @@ var BallEntity = me.ObjectEntity.extend(
                 }
                 // Si la posició es masssa a sota de la pantalla, s'acaba la partida
                 else{
-                    alert("GAME OVER");
                     me.game.bolaActual.remove();
                     tractarRecord(me.game.score);
 
@@ -436,7 +434,7 @@ var BallEntity = me.ObjectEntity.extend(
             var posicio = {};
             var pos = (Math.ceil(this.pos.x/this.image.width)*this.image.width)/32 - 1;
             if(pos == 0){
-                if( me.game.boles[fila][pos+1] != 'undefined' && me.game.boles[fila][pos+1] != null && me.game.boles[fila][pos] == null){
+                if( me.game.boles[fila][pos+1] != 'undefined' && me.game.boles[fila][pos+1] != null &&  ( me.game.boles[fila][pos] != 'undefined' && me.game.boles[fila][pos] == null ) ){
                     posicio.x = me.game.posicions[fila][pos][0];
                     posicio.y = me.game.posicions[fila][pos][1];
                     posicio.pos = pos;
@@ -447,7 +445,7 @@ var BallEntity = me.ObjectEntity.extend(
                     posicio.y = 100000;
                 }
             }else if(pos == 8){
-                if(me.game.boles[fila][pos-1] != 'undefined' && me.game.boles[fila][pos-1] != null && me.game.boles[fila][pos] == null){
+                if(me.game.boles[fila][pos-1] != 'undefined' && me.game.boles[fila][pos-1] != null && ( me.game.boles[fila][pos] != 'undefined' && me.game.boles[fila][pos] == null )){
                     posicio.x = me.game.posicions[fila][pos][0];
                     posicio.y = me.game.posicions[fila][pos][1];
                     posicio.pos = pos;
@@ -457,7 +455,7 @@ var BallEntity = me.ObjectEntity.extend(
                     posicio.y = 100000;
                 }
             }else{
-                if( ( (me.game.boles[fila][pos-1] != 'undefined' && me.game.boles[fila][pos-1] != null) || ( me.game.boles[fila][pos+1] != 'undefined' && me.game.boles[fila][pos+1] != null)) && me.game.boles[fila][pos] == null){
+                if( ( (me.game.boles[fila][pos-1] != 'undefined' && me.game.boles[fila][pos-1] != null) || ( me.game.boles[fila][pos+1] != 'undefined' && me.game.boles[fila][pos+1] != null)) && ( me.game.boles[fila][pos] != 'undefined' && me.game.boles[fila][pos] == null )){
                     posicio.x = me.game.posicions[fila][pos][0];
                     posicio.y = me.game.posicions[fila][pos][1];
                     posicio.pos = pos;
