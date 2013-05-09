@@ -1,37 +1,6 @@
 /*
- *	Definció de constants
+ *	Definció de constants i variables globals
  */
-
-me.game.firstTime = 0 ;    	// Si el el primer instant le la partida
-
-me.game.mutex = 0 ;   		// Mutex per no tirar més d'una bola, o quan hi ha game over
-
-me.game.BALL_OBJECT = 1;	// Tipus d'objecte bola
-
-me.game.midaImatge = 32;	// Mida de la imatge de la bola
-
-me.game.posicions = new Array(10);	// Array amb totes les posicions possibles de les boles
-
-me.game.bolaActual = null ;
-
-me.game.score = 0;          // Puntuació al joc
-
-
-// Inicialització de les matrius que contenen les posicions en pixels de les boles i si aquestes estan ocupades
-me.game.boles = new Array(10);
-for(var i=0; i<me.game.posicions.length; i++){
-    me.game.posicions[i] = new Array(9);
-    me.game.boles[i] = new Array(9);
-    for(var j=0; j<me.game.posicions[i].length; j++){
-        me.game.posicions[i][j] = new Array(2);
-        me.game.boles[i][j] = null;
-        me.game.posicions[i][j][0] = j*32;
-        if(i % 2 == 1) me.game.posicions[i][j][0] += 16;
-        me.game.posicions[i][j][1] = i*32;
-        me.game.boles[i][j] = null;
-    }
-}
-
 
 var barEntity = me.ObjectEntity.extend(
     {
@@ -84,6 +53,37 @@ var PlayerEntity = me.ObjectEntity.extend(
             // fixa si es un objecte colisionable
             this.collidable = false;
 
+
+            //Inicialització de variables globals  i constants
+            me.game.firstTime = 0 ;    	// Si el el primer instant le la partida
+
+            me.game.mutex = 0 ;   		// Mutex per no tirar més d'una bola, o quan hi ha game over
+
+            me.game.BALL_OBJECT = 1;	// Tipus d'objecte bola
+
+            me.game.midaImatge = 32;	// Mida de la imatge de la bola
+
+            me.game.posicions = new Array(10);	// Array amb totes les posicions possibles de les boles
+
+            me.game.bolaActual = null ;
+
+            me.game.score = 0;          // Puntuació al joc
+            $('#score').text("Score = " + me.game.score);
+
+            // Inicialització de les matrius que contenen les posicions en pixels de les boles i si aquestes estan ocupades
+            me.game.boles = new Array(10);
+            for(var i=0; i<me.game.posicions.length; i++){
+                me.game.posicions[i] = new Array(9);
+                me.game.boles[i] = new Array(9);
+                for(var j=0; j<me.game.posicions[i].length; j++){
+                    me.game.posicions[i][j] = new Array(2);
+                    me.game.boles[i][j] = null;
+                    me.game.posicions[i][j][0] = j*32;
+                    if(i % 2 == 1) me.game.posicions[i][j][0] += 16;
+                    me.game.posicions[i][j][1] = i*32;
+                    me.game.boles[i][j] = null;
+                }
+            }
         },
 
         /*
@@ -314,7 +314,7 @@ var BallEntity = me.ObjectEntity.extend(
                     for(var i=0; i<me.game.posicions.length; i++){
                         for(var j=0; j<me.game.posicions[i].length; j++){
                             if((Math.abs((me.game.posicions[i][j][0] + (this.image.width/2))-this.pos.x) + Math.abs((me.game.posicions[i][j][1] + (this.image.height/2))-this.pos.y) < dif)
-                                && this.posicioValida(i,j) && me.game.boles[i][j] == null)
+                                && this.posicioValida(i,j) && (  me.game.boles[i][j] == 'undefined' || me.game.boles[i][j] == null  ) )
                             {
                                 dif = Math.abs((this.pos.x + (this.image.width/2))-me.game.posicions[i][j][0]) + Math.abs((this.pos.y + (this.image.height/2))-me.game.posicions[i][j][1]);
                                 posX = me.game.posicions[i][j][0];
@@ -379,6 +379,11 @@ var BallEntity = me.ObjectEntity.extend(
                         alert("GAME OVER");
                         me.game.bolaActual.remove();
                         tractarRecord(me.game.score);
+
+                        // game over
+                        me.state.change(me.state.GAMEOVER,
+                            0);
+                        return;
                     }
 
                 }
@@ -387,6 +392,11 @@ var BallEntity = me.ObjectEntity.extend(
                     alert("GAME OVER");
                     me.game.bolaActual.remove();
                     tractarRecord(me.game.score);
+
+                    // game over
+                    me.state.change(me.state.GAMEOVER,
+                        0);
+                    return;
                 }
             }
         },
@@ -401,19 +411,19 @@ var BallEntity = me.ObjectEntity.extend(
             else
             {
                 if(i % 2 == 0){
-                    if(i != 0) bola = bola || me.game.boles[i-1][j] != null;
-                    if(j != 0) bola = bola || me.game.boles[i][j-1] != null;
-                    if(i != 0 && j != 0) bola = bola || me.game.boles[i-1][j-1] != null;
-                    if(i != 9) bola = bola || me.game.boles[i+1][j] != null;
-                    if(j != 9) bola = bola || me.game.boles[i][j+1] != null;
-                    if(i != 9 && j != 0) bola = bola || me.game.boles[i+1][j-1] != null;
+                    if(i != 0) bola = bola || me.game.boles[i-1][j] != null || me.game.boles[i-1][j] != 'undefined' ;
+                    if(j != 0) bola = bola || me.game.boles[i][j-1] != null || me.game.boles[i][j-1] != 'undefined' ;
+                    if(i != 0 && j != 0) bola = bola || me.game.boles[i-1][j-1] != null || me.game.boles[i-1][j-1] != 'undefined' ;
+                    if(i != 9) bola = bola || me.game.boles[i+1][j] != null || me.game.boles[i+1][j] != 'undefined' ;
+                    if(j != 9) bola = bola || me.game.boles[i][j+1] != null || me.game.boles[i][j+1] != 'undefined' ;
+                    if(i != 9 && j != 0) bola = bola || me.game.boles[i+1][j-1] != null || me.game.boles[i+1][j-1] != 'undefined' ;
                 }else{
-                    if(i != 0) bola = bola || me.game.boles[i-1][j] != null;
-                    if(j != 0) bola = bola || me.game.boles[i][j-1] != null;
-                    if(i != 9) bola = bola || me.game.boles[i+1][j] != null;
-                    if(j != 9) bola = bola || me.game.boles[i][j+1] != null;
-                    if(i != 9 && j != 9) bola = bola || me.game.boles[i+1][j+1] != null;
-                    if(i != 0 && j != 9) bola = bola || me.game.boles[i-1][j+1] != null;
+                    if(i != 0) bola = bola || me.game.boles[i-1][j] != null || me.game.boles[i-1][j] != 'undefined' ;
+                    if(j != 0) bola = bola || me.game.boles[i][j-1] != null || me.game.boles[i][j-1] != 'undefined' ;
+                    if(i != 9) bola = bola || me.game.boles[i+1][j] != null || me.game.boles[i+1][j] != 'undefined' ;
+                    if(j != 9) bola = bola || me.game.boles[i][j+1] != null || me.game.boles[i][j+1] != 'undefined' ;
+                    if(i != 9 && j != 9) bola = bola || me.game.boles[i+1][j+1] != null || me.game.boles[i+1][j+1] != 'undefined' ;
+                    if(i != 0 && j != 9) bola = bola || me.game.boles[i-1][j+1] != null || me.game.boles[i-1][j+1] != 'undefined' ;
                 }
                 return bola;
             }
@@ -426,7 +436,7 @@ var BallEntity = me.ObjectEntity.extend(
             var posicio = {};
             var pos = (Math.ceil(this.pos.x/this.image.width)*this.image.width)/32 - 1;
             if(pos == 0){
-                if(me.game.boles[fila][pos+1] != null && me.game.boles[fila][pos] == null){
+                if( me.game.boles[fila][pos+1] != 'undefined' && me.game.boles[fila][pos+1] != null && me.game.boles[fila][pos] == null){
                     posicio.x = me.game.posicions[fila][pos][0];
                     posicio.y = me.game.posicions[fila][pos][1];
                     posicio.pos = pos;
@@ -437,7 +447,7 @@ var BallEntity = me.ObjectEntity.extend(
                     posicio.y = 100000;
                 }
             }else if(pos == 8){
-                if(me.game.boles[fila][pos-1] != null && me.game.boles[fila][pos] == null){
+                if(me.game.boles[fila][pos-1] != 'undefined' && me.game.boles[fila][pos-1] != null && me.game.boles[fila][pos] == null){
                     posicio.x = me.game.posicions[fila][pos][0];
                     posicio.y = me.game.posicions[fila][pos][1];
                     posicio.pos = pos;
@@ -447,7 +457,7 @@ var BallEntity = me.ObjectEntity.extend(
                     posicio.y = 100000;
                 }
             }else{
-                if( ( me.game.boles[fila][pos-1] != null || me.game.boles[fila][pos+1] != null) && me.game.boles[fila][pos] == null){
+                if( ( (me.game.boles[fila][pos-1] != 'undefined' && me.game.boles[fila][pos-1] != null) || ( me.game.boles[fila][pos+1] != 'undefined' && me.game.boles[fila][pos+1] != null)) && me.game.boles[fila][pos] == null){
                     posicio.x = me.game.posicions[fila][pos][0];
                     posicio.y = me.game.posicions[fila][pos][1];
                     posicio.pos = pos;
@@ -476,63 +486,63 @@ var BallEntity = me.ObjectEntity.extend(
             resultat.nombre = 1;
             var aux;
             if(i % 2 == 0){
-                if(i != 0 &&  me.game.boles[i-1][j] != null && me.game.boles[i-1][j].color == this.color && !this.mirarLlistaPosicions(i-1,j,llista)){
+                if(i != 0 &&  me.game.boles[i-1][j] != 'undefined' && me.game.boles[i-1][j] != null && me.game.boles[i-1][j].color == this.color && !this.mirarLlistaPosicions(i-1,j,llista)){
                     aux = me.game.boles[i-1][j].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(j != 0 && me.game.boles[i][j-1] != null && me.game.boles[i][j-1].color == this.color && !this.mirarLlistaPosicions(i,j-1,llista)) {
+                if(j != 0 && me.game.boles[i][j-1] != 'undefined' && me.game.boles[i][j-1] != null && me.game.boles[i][j-1].color == this.color && !this.mirarLlistaPosicions(i,j-1,llista)) {
                     aux = me.game.boles[i][j-1].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 0 && j != 0 && me.game.boles[i-1][j-1] != null && me.game.boles[i-1][j-1].color == this.color && !this.mirarLlistaPosicions(i-1,j-1,llista)){
+                if(i != 0 && j != 0 && me.game.boles[i-1][j-1] != 'undefined' && j != 0 && me.game.boles[i-1][j-1] != null && me.game.boles[i-1][j-1].color == this.color && !this.mirarLlistaPosicions(i-1,j-1,llista)){
                     aux = me.game.boles[i-1][j-1].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 9 && me.game.boles[i+1][j] != null && me.game.boles[i+1][j].color == this.color && !this.mirarLlistaPosicions(i+1,j,llista)){
+                if(i != 9 && me.game.boles[i+1][j] != 'undefined' && me.game.boles[i+1][j] != null && me.game.boles[i+1][j].color == this.color && !this.mirarLlistaPosicions(i+1,j,llista)){
                     aux = me.game.boles[i+1][j].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(j != 9 && me.game.boles[i][j+1] != null && me.game.boles[i][j+1].color == this.color && !this.mirarLlistaPosicions(i,j+1,llista)){
+                if(j != 9 && me.game.boles[i][j+1] != 'undefined' && me.game.boles[i][j+1] != null && me.game.boles[i][j+1].color == this.color && !this.mirarLlistaPosicions(i,j+1,llista)){
                     aux = me.game.boles[i][j+1].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 9 && j != 0 && me.game.boles[i+1][j-1] != null && me.game.boles[i+1][j-1].color == this.color && !this.mirarLlistaPosicions(i+1,j-1,llista)){
+                if(i != 9 && j != 0 && me.game.boles[i+1][j-1] != 'undefined' && me.game.boles[i+1][j-1] != null && me.game.boles[i+1][j-1].color == this.color && !this.mirarLlistaPosicions(i+1,j-1,llista)){
                     aux = me.game.boles[i+1][j-1].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
             }else{
-                if(i != 0 &&  me.game.boles[i-1][j] != null && me.game.boles[i-1][j].color == this.color && !this.mirarLlistaPosicions(i-1,j,llista)){
+                if(i != 0 &&  me.game.boles[i-1][j] != 'undefined' && me.game.boles[i-1][j] != null && me.game.boles[i-1][j].color == this.color && !this.mirarLlistaPosicions(i-1,j,llista)){
                     aux = me.game.boles[i-1][j].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(j != 0 && me.game.boles[i][j-1] != null && me.game.boles[i][j-1].color == this.color && !this.mirarLlistaPosicions(i,j-1,llista)) {
+                if(j != 0 && me.game.boles[i][j-1] != 'undefined' && me.game.boles[i][j-1] != null && me.game.boles[i][j-1].color == this.color && !this.mirarLlistaPosicions(i,j-1,llista)) {
                     aux = me.game.boles[i][j-1].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 9 && me.game.boles[i+1][j] != null && me.game.boles[i+1][j].color == this.color && !this.mirarLlistaPosicions(i+1,j,llista)){
+                if(i != 9 && me.game.boles[i+1][j] != 'undefined' && me.game.boles[i+1][j] != null && me.game.boles[i+1][j].color == this.color && !this.mirarLlistaPosicions(i+1,j,llista)){
                     aux = me.game.boles[i+1][j].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(j != 9 && me.game.boles[i][j+1] != null && me.game.boles[i][j+1].color == this.color && !this.mirarLlistaPosicions(i,j+1,llista)){
+                if(j != 9 &&  me.game.boles[i][j+1] != 'undefined' && me.game.boles[i][j+1] != null && me.game.boles[i][j+1].color == this.color && !this.mirarLlistaPosicions(i,j+1,llista)){
                     aux = me.game.boles[i][j+1].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 9 && j != 9 && me.game.boles[i+1][j+1] != null && me.game.boles[i+1][j+1].color == this.color && !this.mirarLlistaPosicions(i+1,j+1,llista)){
+                if(i != 9 && j != 9 && me.game.boles[i+1][j+1] != 'undefined' && me.game.boles[i+1][j+1] != null && me.game.boles[i+1][j+1].color == this.color && !this.mirarLlistaPosicions(i+1,j+1,llista)){
                     aux = me.game.boles[i+1][j+1].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 0 && j != 9 && me.game.boles[i-1][j+1] != null && me.game.boles[i-1][j+1].color == this.color && !this.mirarLlistaPosicions(i-1,j+1,llista)){
+                if(i != 0 && j != 9 && me.game.boles[i-1][j+1] != 'undefined' && me.game.boles[i-1][j+1] != null && me.game.boles[i-1][j+1].color == this.color && !this.mirarLlistaPosicions(i-1,j+1,llista)){
                     aux = me.game.boles[i-1][j+1].mirarGrup(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
@@ -579,7 +589,7 @@ var BallEntity = me.ObjectEntity.extend(
             var hiHaAlmenysUna = false ;
             while( i < me.game.posicions.length && !hiHaAlmenysUna ){
                 while( j< me.game.posicions.length && !hiHaAlmenysUna ){
-                    hiHaAlmenysUna = hiHaAlmenysUna || me.game.boles[i][j] != null ;
+                    hiHaAlmenysUna = hiHaAlmenysUna || me.game.boles[i][j] != 'undefined' || me.game.boles[i][j] != null ;
                     j++;
                 }
                 i++;
@@ -632,63 +642,63 @@ var BallEntity = me.ObjectEntity.extend(
             resultat.nombre = 1;
             var aux;
             if(i % 2 == 0){
-                if(i != 0 &&  me.game.boles[i-1][j] != null && !this.mirarLlistaPosicions(i-1,j,llista)){
+                if(i != 0 &&  me.game.boles[i-1][j] != 'undefined' && me.game.boles[i-1][j] != null && !this.mirarLlistaPosicions(i-1,j,llista)){
                     aux = me.game.boles[i-1][j].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(j != 0 && me.game.boles[i][j-1] != null && !this.mirarLlistaPosicions(i,j-1,llista)) {
+                if(j != 0 && me.game.boles[i][j-1] != 'undefined' && me.game.boles[i][j-1] != null && !this.mirarLlistaPosicions(i,j-1,llista)) {
                     aux = me.game.boles[i][j-1].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 0 && j != 0 && me.game.boles[i-1][j-1] != null && !this.mirarLlistaPosicions(i-1,j-1,llista)){
+                if(i != 0 && j != 0 && me.game.boles[i-1][j-1] != 'undefined' && me.game.boles[i-1][j-1] != null && !this.mirarLlistaPosicions(i-1,j-1,llista)){
                     aux = me.game.boles[i-1][j-1].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 9 && me.game.boles[i+1][j] != null && !this.mirarLlistaPosicions(i+1,j,llista)){
+                if(i != 9 && me.game.boles[i+1][j] != 'undefined' && me.game.boles[i+1][j] != null && !this.mirarLlistaPosicions(i+1,j,llista)){
                     aux = me.game.boles[i+1][j].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(j != 9 && me.game.boles[i][j+1] != null && !this.mirarLlistaPosicions(i,j+1,llista)){
+                if(j != 9 && me.game.boles[i][j+1] != 'undefined' && me.game.boles[i][j+1] != null && !this.mirarLlistaPosicions(i,j+1,llista)){
                     aux = me.game.boles[i][j+1].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 9 && j != 0 && me.game.boles[i+1][j-1] != null && !this.mirarLlistaPosicions(i+1,j-1,llista)){
+                if(i != 9 && j != 0 && me.game.boles[i+1][j-1] != 'undefined' && me.game.boles[i+1][j-1] != null && !this.mirarLlistaPosicions(i+1,j-1,llista)){
                     aux = me.game.boles[i+1][j-1].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
             }else{
-                if(i != 0 &&  me.game.boles[i-1][j] != null && !this.mirarLlistaPosicions(i-1,j,llista)){
+                if(i != 0 &&  me.game.boles[i-1][j] != 'undefined' && me.game.boles[i-1][j] != null && !this.mirarLlistaPosicions(i-1,j,llista)){
                     aux = me.game.boles[i-1][j].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(j != 0 && me.game.boles[i][j-1] != null && !this.mirarLlistaPosicions(i,j-1,llista)) {
+                if(j != 0 && me.game.boles[i][j-1] != 'undefined' && me.game.boles[i][j-1] != null && !this.mirarLlistaPosicions(i,j-1,llista)) {
                     aux = me.game.boles[i][j-1].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 9 && me.game.boles[i+1][j] != null && !this.mirarLlistaPosicions(i+1,j,llista)){
+                if(i != 9 && me.game.boles[i+1][j] != undefined && me.game.boles[i+1][j] != null && !this.mirarLlistaPosicions(i+1,j,llista)){
                     aux = me.game.boles[i+1][j].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(j != 9 && me.game.boles[i][j+1] != null && !this.mirarLlistaPosicions(i,j+1,llista)){
+                if(j != 9 && me.game.boles[i][j+1] != 'undefined' && me.game.boles[i][j+1] != null && !this.mirarLlistaPosicions(i,j+1,llista)){
                     aux = me.game.boles[i][j+1].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 9 && j != 9 && me.game.boles[i+1][j+1] != null && !this.mirarLlistaPosicions(i+1,j+1,llista)){
+                if(i != 9 && j != 9 && me.game.boles[i+1][j+1] != 'undefined' && me.game.boles[i+1][j+1] != null && !this.mirarLlistaPosicions(i+1,j+1,llista)){
                     aux = me.game.boles[i+1][j+1].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
                 }
-                if(i != 0 && j != 9 && me.game.boles[i-1][j+1] != null && !this.mirarLlistaPosicions(i-1,j+1,llista)){
+                if(i != 0 && j != 9 && me.game.boles[i-1][j+1] != 'undefined' && me.game.boles[i-1][j+1] != null && !this.mirarLlistaPosicions(i-1,j+1,llista)){
                     aux = me.game.boles[i-1][j+1].mirarGrupSenseColor(llista);
                     resultat.nombre += aux.nombre;
                     resultat.llista = aux.llista;
