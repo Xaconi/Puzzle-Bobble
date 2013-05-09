@@ -6,6 +6,21 @@
  * To change this template use File | Settings | File Templates.
  */
 
+$(document).ready(function() {
+    $.ajax({
+        url: encodeURI('/recollirRecordsPersonals'),
+        type: 'GET',
+        data: {},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            $(data).each(function(i,item){
+                var a = 1;
+            });
+        },
+        error: function () { }
+    });
+})
+
 // Funció ajax per inserir el record una vegada l'usuari ha perdut en el joc
 function tractarRecord(score){
     var date = new Date();
@@ -32,9 +47,7 @@ function recollirRecordsTotals(score){
         data: {record: score, time : date},
         contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
-            if(data.name != ""){
-                alert(data.name);
-            }
+
         },
         error: function () { }
     });

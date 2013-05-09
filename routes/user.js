@@ -89,9 +89,9 @@ exports.login = function(req, res) {
             else
             {
                 if(item.password == encPass){
-                    req.session.id = item._id;
+                    req.session.idUsuari = item._id;
                     console.log(item._id);
-                    console.log(req.session.id);
+                    console.log(req.session.idUsuari);
                     res.render('game');
                     // Cas correcte
                     //console.log(item._id);

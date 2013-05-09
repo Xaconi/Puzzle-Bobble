@@ -50,6 +50,9 @@ app.post('/inserirRecord', record.inserirRecord);
 // Torna els 10 millors records globals de l'Ultimate Puzzle Bobble
 app.get('/recollirRecordsTotals', record.recollirRecordsTotals);
 
+// Torna els 10 millors records personals de l'Ultimate Puzzle Bobble
+app.get('/recollirRecordsPersonals', record.recollirRecordsPersonals);
+
 //Web del joc
 app.get('/game', function(req, res){
     res.render('game');
