@@ -587,7 +587,7 @@ var BallEntity = me.ObjectEntity.extend(
             var hiHaAlmenysUna = false ;
             while( i < me.game.posicions.length && !hiHaAlmenysUna ){
                 while( j< me.game.posicions.length && !hiHaAlmenysUna ){
-                    hiHaAlmenysUna = hiHaAlmenysUna || me.game.boles[i][j] != 'undefined' || me.game.boles[i][j] != null ;
+                    hiHaAlmenysUna = hiHaAlmenysUna || me.game.boles[i][j] != null ;
                     j++;
                 }
                 i++;

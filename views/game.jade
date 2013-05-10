@@ -20,17 +20,84 @@ head
             .bottom
         #container
             section#main
-                aside#sidebar2
-                    h2.fontface Top Scores
-                    br
-                    br
-                    br
                 section#content
                     h2#score.fontface Score = 0
                     br
                     div(align='center')
                         #jsapp
                         div
+                aside#sidebar2
+                    h2.fontface Top Scores
+                    br
+                    button#buttonOptionRecord(onclick='JavaScript:alert(\'My Best Records!\')') Me
+                    button#buttonOptionRecord(onclick='JavaScript:alert(\'Best Records of the Week!\')') Week
+                    button#buttonOptionRecord(onclick='JavaScript:alert(\'Best Records of All Times!\')') All
+                    br
+                    br
+                    .optionsRecordTable
+                        table
+                            tr
+                                td
+                                    | Me
+                                td
+                                    | Week
+                                td
+                                    | All
+                    br
+                    .recordTable
+                        table
+                            tr
+                                td
+                                    | User 1
+                                td
+                                    | Score 1
+                            tr
+                                td
+                                    | User 2
+                                td
+                                    | Score 2
+                            tr
+                                td
+                                    | User 3
+                                td
+                                    | Score 3
+                            tr
+                                td
+                                    | User 4
+                                td
+                                    | Score 4
+                            tr
+                                td
+                                    | User 5
+                                td
+                                    | Score 5
+                            tr
+                                td
+                                    | User 6
+                                td
+                                    | Score 6
+                            tr
+                                td
+                                    | User 7
+                                td
+                                    | Score 7
+                            tr
+                                td
+                                    | User 8
+                                td
+                                    | Score 8
+                            tr
+                                td
+                                    | User 9
+                                td
+                                    | Score 9
+                            tr
+                                td
+                                    | User 10
+                                td
+                                    | Score 10
+
+
         footer
             .containerFooter
                 .top

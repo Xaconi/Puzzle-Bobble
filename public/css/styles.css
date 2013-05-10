@@ -228,7 +228,7 @@ footer {
 	width: 1000px;
 	margin: 0 auto;
 	background-color: transparent;
-	min-height: 100%;
+	/*min-height: 100%;*/
 }
 
 .containerFooter{
@@ -598,4 +598,229 @@ border-bottom: 1px dotted #ccc;}
             background-image: linear-gradient(top, rgb(226,238,175) 3%,rgb(188,216,77) 3%,rgb(144,176,38) 100%); 
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2eeaf', endColorstr='#90b026',GradientType=0 );
             text-decoration:none;
+}
+
+#buttonOptionRecord {
+    font-family: BoycottRegular;
+    font-weight: bold;
+    color: #FFAB00 !important;
+    font-size: 14px;
+    text-shadow: 1px 1px 0px #000000;
+    box-shadow: 9px 9px 10px #738996;
+    padding: 16px 24px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    border: 2px solid #000000;
+    background: #63B8EE;
+    background: linear-gradient(top,  #000000, #2a4a74);
+    background: -ms-linear-gradient(top,  #000000,  #2a4a74);
+    background: -webkit-gradient(linear, left top, left bottom, from(#000000), to(#2a4a74));
+    background: -moz-linear-gradient(top,  #000000,  #2a4a74);
+}
+#buttonOptionRecord:hover {
+    color: #FF38FF;
+    background: #468CCF;
+    background: linear-gradient(top,  #2a4a74,  #000000);
+    background: -ms-linear-gradient(top,  #2a4a74,  #000000);
+    background: -webkit-gradient(linear, left top, left bottom, from(#2a4a74), to(#000000));
+    background: -moz-linear-gradient(top,  #2a4a74,  #000000);
+}
+
+.optionsRecordTable {
+    margin:0px;padding:0px;
+    width:100%;
+    box-shadow: 10px 10px 5px #888888;
+    border:1px solid #ff56aa;
+
+    -moz-border-radius-bottomleft:20px;
+    -webkit-border-bottom-left-radius:20px;
+    border-bottom-left-radius:20px;
+
+    -moz-border-radius-bottomright:20px;
+    -webkit-border-bottom-right-radius:20px;
+    border-bottom-right-radius:20px;
+
+    -moz-border-radius-topright:20px;
+    -webkit-border-top-right-radius:20px;
+    border-top-right-radius:20px;
+
+    -moz-border-radius-topleft:20px;
+    -webkit-border-top-left-radius:20px;
+    border-top-left-radius:20px;
+}.optionsRecordTable table{
+     width:100%;
+     height:100%;
+     margin:0px;padding:0px;
+ }.optionsRecordTable tr:last-child td:last-child {
+      -moz-border-radius-bottomright:20px;
+      -webkit-border-bottom-right-radius:20px;
+      border-bottom-right-radius:20px;
+  }
+.optionsRecordTable table tr:first-child td:first-child {
+    -moz-border-radius-topleft:20px;
+    -webkit-border-top-left-radius:20px;
+    border-top-left-radius:20px;
+}
+.optionsRecordTable table tr:first-child td:last-child {
+    -moz-border-radius-topright:20px;
+    -webkit-border-top-right-radius:20px;
+    border-top-right-radius:20px;
+}.optionsRecordTable tr:last-child td:first-child{
+     -moz-border-radius-bottomleft:20px;
+     -webkit-border-bottom-left-radius:20px;
+     border-bottom-left-radius:20px;
+ }.optionsRecordTable tr:hover td{
+      background-color:#0000bf;
+
+
+  }
+.optionsRecordTable td{
+    vertical-align:middle;
+    background:-o-linear-gradient(bottom, #3f007f 5%, #0000bf 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3f007f), color-stop(1, #0000bf) );
+    background:-moz-linear-gradient( center top, #3f007f 5%, #0000bf 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f007f", endColorstr="#0000bf");	background: -o-linear-gradient(top,#3f007f,0000bf);
+
+    background-color:#3f007f;
+
+    border:1px solid #ff56aa;
+    border-width:0px 1px 1px 0px;
+    text-align:center;
+    padding:7px;
+    font-size:10px;
+    font-family:BoycottRegular;
+    font-weight:normal;
+    color: #ffab00;
+}.optionsRecordTable tr:last-child td{
+     border-width:0px 1px 0px 0px;
+ }.optionsRecordTable tr td:last-child{
+      border-width:0px 0px 1px 0px;
+  }.optionsRecordTable tr:last-child td:last-child{
+       border-width:0px 0px 0px 0px;
+   }
+.optionsRecordTable tr:first-child td{
+    background:-o-linear-gradient(bottom, #191919 5%, #333333 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #191919), color-stop(1, #333333) );
+    background:-moz-linear-gradient( center top, #191919 5%, #333333 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#191919", endColorstr="#333333");	background: -o-linear-gradient(top,#191919,333333);
+
+    background-color:#191919;
+    border:0px solid #ff56aa;
+    text-align:center;
+    border-width:0px 0px 1px 1px;
+    font-size:14px;
+    font-family:BoycottRegular;
+    font-weight:bold;
+    color: #ffb50a;
+}
+.optionsRecordTable tr:first-child:hover td{
+    background:-o-linear-gradient(bottom, #191919 5%, #333333 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #191919), color-stop(1, #333333) );
+    background:-moz-linear-gradient( center top, #191919 5%, #333333 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#191919", endColorstr="#333333");	background: -o-linear-gradient(top,#191919,333333);
+
+    background-color:#191919;
+}
+.optionsRecordTable tr:first-child td:first-child{
+    border-width:0px 0px 1px 0px;
+}
+.optionsRecordTable tr:first-child td:last-child{
+    border-width:0px 0px 1px 1px;
+}
+
+
+
+
+.recordTable {
+    margin:0px;padding:0px;
+    width:100%;
+    box-shadow: 10px 10px 5px #888888;
+    border:1px solid #ff56aa;
+
+    -moz-border-radius-bottomleft:20px;
+    -webkit-border-bottom-left-radius:20px;
+    border-bottom-left-radius:20px;
+
+    -moz-border-radius-bottomright:20px;
+    -webkit-border-bottom-right-radius:20px;
+    border-bottom-right-radius:20px;
+
+    -moz-border-radius-topright:20px;
+    -webkit-border-top-right-radius:20px;
+    border-top-right-radius:20px;
+
+    -moz-border-radius-topleft:20px;
+    -webkit-border-top-left-radius:20px;
+    border-top-left-radius:20px;
+}.recordTable table{
+     width:100%;
+     height:100%;
+     margin:0px;padding:0px;
+ }.recordTable tr:last-child td:last-child {
+      -moz-border-radius-bottomright:20px;
+      -webkit-border-bottom-right-radius:20px;
+      border-bottom-right-radius:20px;
+  }
+.recordTable table tr:first-child td:first-child {
+    -moz-border-radius-topleft:20px;
+    -webkit-border-top-left-radius:20px;
+    border-top-left-radius:20px;
+}
+.recordTable table tr:first-child td:last-child {
+    -moz-border-radius-topright:20px;
+    -webkit-border-top-right-radius:20px;
+    border-top-right-radius:20px;
+}.recordTable tr:last-child td:first-child{
+     -moz-border-radius-bottomleft:20px;
+     -webkit-border-bottom-left-radius:20px;
+     border-bottom-left-radius:20px;
+ }.recordTable tr:hover td{
+      background-color:#3f007f;
+
+
+  }
+.recordTable td{
+    vertical-align:middle;
+
+    background-color:#3f007f;
+
+    border:1px solid #ff56aa;
+    border-width:0px 1px 1px 0px;
+    text-align:center;
+    padding:7px;
+    font-size:15px;
+    font-family:BoycottRegular;
+    font-weight:normal;
+    color: #0fd200;
+}.recordTable tr:last-child td{
+     border-width:0px 1px 0px 0px;
+ }.recordTable tr td:last-child{
+      border-width:0px 0px 1px 0px;
+  }.recordTable tr:last-child td:last-child{
+       border-width:0px 0px 0px 0px;
+   }
+.recordTable tr:first-child td{
+    background:-o-linear-gradient(bottom, #3f007f 5%, #3f007f 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3f007f), color-stop(1, #3f007f) );
+    background:-moz-linear-gradient( center top, #3f007f 5%, #3f007f 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f007f", endColorstr="#3f007f");	background: -o-linear-gradient(top,#3f007f,3f007f);
+
+    background-color:#3f007f;
+    border:0px solid #ff56aa;
+    text-align:center;
+    border-width:0px 0px 1px 1px;
+    font-size:15px;
+    font-family:BoycottRegular;
+    font-weight:normal;
+    color:#0fd200;
+}
+.recordTable tr:first-child:hover td{
+    background:-o-linear-gradient(bottom, #3f007f 5%, #3f007f 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3f007f), color-stop(1, #3f007f) );
+    background:-moz-linear-gradient( center top, #3f007f 5%, #3f007f 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f007f", endColorstr="#3f007f");	background: -o-linear-gradient(top,#3f007f,3f007f);
+
+    background-color:#3f007f;
+}
+.recordTable tr:first-child td:first-child{
+    border-width:0px 0px 1px 0px;
+}
+.recordTable tr:first-child td:last-child{
+    border-width:0px 0px 1px 1px;
 }
