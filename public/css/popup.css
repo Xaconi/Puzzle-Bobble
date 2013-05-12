@@ -334,8 +334,8 @@
         }
 	
 	#popup-login{  
-		width:40%;
-		height:80%;
+		width:390px;
+		height:255px;
 		border:1px solid white;
 		background-color: rgba(54, 118, 120,1);
 		top:10%;
@@ -370,8 +370,8 @@
 	}
 	
 	#popup{  
-		width:75%;
-		height:50%;
+		width:990px;
+		height:320px;
 		border:1px solid white;
 		background-color:white;
 		top:20%;
