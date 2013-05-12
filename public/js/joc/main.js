@@ -71,6 +71,7 @@ var jsApp =
     }
 }; // jsApp
 
+
 // Carrega de tot
 window.onReady(function()
 {

@@ -11,14 +11,13 @@ head
     script(type='text/javascript', src='../js/record.js')
     body
         header
-            .containerHeader
+            .containerHeaderJoc
                 h1#title.fontface
-                    #cabecera
-                        span.orange ULTIMATE
-                        span.pink PUZZLE
-                        span.green BUBBLE
+                    span.orange ULTIMATE
+                    span.pink PUZZLE
+                    span.green BUBBLE
             .bottom
-        #container
+        #containerJoc
             section#main
                 section#content
                     h2#score.fontface Score = 0
@@ -28,11 +27,6 @@ head
                         div
                 aside#sidebar2
                     h2.fontface Top Scores
-                    br
-                    button#buttonOptionRecord(onclick='JavaScript:alert(\'My Best Records!\')') Me
-                    button#buttonOptionRecord(onclick='JavaScript:alert(\'Best Records of the Week!\')') Week
-                    button#buttonOptionRecord(onclick='JavaScript:alert(\'Best Records of All Times!\')') All
-                    br
                     br
                     .optionsRecordTable
                         table

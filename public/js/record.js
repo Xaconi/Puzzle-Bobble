@@ -13,8 +13,11 @@ $(document).ready(function() {
         data: {},
         contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
+            netejaTaula();
             $(data).each(function(i,item){
-                var a = 1;
+                var taula = $('.recordTable tr').get(i);
+                $('td:nth-child(1)',taula).text(item.user_name);
+                $('td:nth-child(2)',taula).text(item.score);
             });
         },
         error: function () { }
@@ -27,7 +30,7 @@ function tractarRecord(score){
     $.ajax({
         url: encodeURI('/inserirRecord'),
         type: 'POST',
-        data: {record: score, time : date},
+        data: {record: score},
         contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             if(data.name != ""){
@@ -39,16 +42,64 @@ function tractarRecord(score){
 };
 
 // Funció ajax per recollir els millors records de base de dades
-function recollirRecordsTotals(score){
-    var date = new Date();
+function recollirRecordsTotals(){
     $.ajax({
         url: encodeURI('/recollirRecordsTotals'),
         type: 'GET',
-        data: {record: score, time : date},
+        data: {},
         contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
-
+            netejaTaula();
+            $(data).each(function(i,item){
+                var taula = $('.recordTable tr').get(i);
+                $('td:nth-child(1)',taula).text(item.user_name);
+                $('td:nth-child(2)',taula).text(item.score);
+            });
         },
         error: function () { }
     });
 };
+
+// Funció ajax per recollir els millors records de base de dades
+function recollirRecordsPersonals(){
+    $.ajax({
+        url: encodeURI('/recollirRecordsPersonals'),
+        type: 'GET',
+        data: {},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            netejaTaula();
+            $(data).each(function(i,item){
+                var taula = $('.recordTable tr').get(i);
+                $('td:nth-child(1)',taula).text(item.user_name);
+                $('td:nth-child(2)',taula).text(item.score);
+            });
+        },
+        error: function () { }
+    });
+};
+
+// Funció ajax per recollir els millors records de base de dades
+function recollirRecordsSetmanals(){
+    $.ajax({
+        url: encodeURI('/recollirRecordsSetmanals'),
+        type: 'GET',
+        data: {},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+            netejaTaula();
+            $(data).each(function(i,item){
+                var taula = $('.recordTable tr').get(i);
+                $('td:nth-child(1)',taula).text(item.user_name);
+                $('td:nth-child(2)',taula).text(item.score);
+            });
+        },
+        error: function () { }
+    });
+};
+
+// Funció per netejar la taula de records, i estalviar així possibles malentessos
+function netejaTaula(){
+    $('.recordTable tr td:nth-child(1)').text('NOT ADDED');
+    $('.recordTable tr td:nth-child(2)').text('0');
+}

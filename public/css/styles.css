@@ -218,7 +218,7 @@ footer {
 }
 
 /************************ Containers ************************/
-#container, #container_left, #container_right {
+#container, #container_left, #container_right, #containerJoc {
 	position: relative;
 	width: 100%;
 }
@@ -229,6 +229,14 @@ footer {
 	margin: 0 auto;
 	background-color: transparent;
 	/*min-height: 100%;*/
+}
+
+#containerJoc {
+    position: relative;
+    width: 700px;
+    margin: 0 auto;
+    background-color: transparent;
+    /*min-height: 100%;*/
 }
 
 .containerFooter{
@@ -244,6 +252,16 @@ footer {
 	background-color: transparent;
 	padding-top: 20px;
 	position: relative;
+}
+
+.containerHeaderJoc {
+    width: 700px;
+    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: transparent;
+    padding-top: 20px;
+    position: relative;
 }
 
 .container1 {
@@ -489,8 +507,8 @@ nav ul li a.prpl:hover{
 
 #content {
    float: left;
-   width: 400px;
-   margin-left: 150px;
+   width: 304px;
+   margin-left: 0px;
 }
 
 .gallery a {
@@ -510,8 +528,8 @@ img {
 
 #sidebar2 {
    float: right;
-   width: 300px;
-   margin-right: 150px;
+   width: 304px;
+   margin-right: 0px;
 }
 
 /* sidebar and footer widget blocks */
@@ -687,7 +705,7 @@ border-bottom: 1px dotted #ccc;}
     border-width:0px 1px 1px 0px;
     text-align:center;
     padding:7px;
-    font-size:10px;
+    font-size:20px;
     font-family:BoycottRegular;
     font-weight:normal;
     color: #ffab00;
@@ -707,7 +725,7 @@ border-bottom: 1px dotted #ccc;}
     border:0px solid #ff56aa;
     text-align:center;
     border-width:0px 0px 1px 1px;
-    font-size:14px;
+    font-size:20px;
     font-family:BoycottRegular;
     font-weight:bold;
     color: #ffb50a;
@@ -786,7 +804,7 @@ border-bottom: 1px dotted #ccc;}
     border-width:0px 1px 1px 0px;
     text-align:center;
     padding:7px;
-    font-size:15px;
+    font-size:17px;
     font-family:BoycottRegular;
     font-weight:normal;
     color: #0fd200;
@@ -806,7 +824,7 @@ border-bottom: 1px dotted #ccc;}
     border:0px solid #ff56aa;
     text-align:center;
     border-width:0px 0px 1px 1px;
-    font-size:15px;
+    font-size:17px;
     font-family:BoycottRegular;
     font-weight:normal;
     color:#0fd200;

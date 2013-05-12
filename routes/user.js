@@ -10,6 +10,7 @@
 // Dades de connexió i gestió amb la base de dades local
 var mongo = require('mongodb');
 var crypto = require('crypto');
+var ObjectID = require('mongodb').ObjectID;
 var algorithm = 'aes256';
 var key = 'La vida 42';
 var user_ID;
@@ -61,7 +62,7 @@ exports.register = function(req, res){
                 if(item == null){
                     collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
                     collection.findOne({'name': req.body.registerUser}, function(err, item) {
-                        req.session.id = item._id;      // Guardem el ID de l'usuari com ID de la sessió per comprovar
+                        req.session.idUsuari = item._id;      // Guardem el ID de l'usuari com ID de la sessió per comprovar
                                                         // en tot moment que estem tractant amb el mateix usuari
                         res.render('game');
                     });
