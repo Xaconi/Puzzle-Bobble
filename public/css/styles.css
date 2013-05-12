@@ -230,7 +230,7 @@ footer {
 
 #container {
 	position: relative;
-	width: 700px;
+	width: 1000px;
 	margin: 0 auto;
 	background-color: transparent;
 	/*min-height: 100%;*/
@@ -250,7 +250,7 @@ footer {
 }
 
 .containerHeader {
-   width: 700px;
+   width: 980px;
    margin: 0 auto;
    margin-left: auto;
    margin-right: auto;
