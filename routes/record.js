@@ -47,7 +47,7 @@ exports.recollirRecordsPersonals = function(req, res){
 };
 
 // Select dels millors records totals de la setmana
-exports.recollirRecordsSetmana = function(req, res){
+exports.recollirRecordsSetmanals = function(req, res){
     db.collection('record', function(err, collection) {
         var d = new Date(new Date());
         var day = d.getDay(),

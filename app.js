@@ -54,7 +54,7 @@ app.get('/recollirRecordsTotals', record.recollirRecordsTotals);
 app.get('/recollirRecordsPersonals', record.recollirRecordsPersonals);
 
 // Torna els 10 millors records de la setmana de l'Ultimate Puzzle Bobble
-app.get('/recollirRecordsSetmana', record.recollirRecordsSetmana);
+app.get('/recollirRecordsSetmanals', record.recollirRecordsSetmanals);
 
 //Web del joc
 app.get('/game', function(req, res){
