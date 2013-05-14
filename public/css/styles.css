@@ -210,6 +210,23 @@ div.top  {
    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#00aeff', endColorstr='#ff0000',GradientType=1 ); /* IE6-9 */	
 }
 
+@media screen and (max-width: 727px){
+    #containerJoc{
+        width: 304px !important;
+    }
+}
+
+@media screen and (max-width: 1180px){
+    #divFooter{
+        margin: 0 auto;
+        width: 420px;
+    }
+
+    #footerLeft{
+        width:320px;
+    }
+}
+
 footer {
 	clear: both;
 	width: 100%;
@@ -784,9 +801,6 @@ border-bottom: 1px dotted #ccc;}
 .optionsRecordTable tr:first-child td:last-child{
     border-width:0px 0px 1px 1px;
 }
-
-
-
 
 .recordTable {
     margin:0px;padding:0px;

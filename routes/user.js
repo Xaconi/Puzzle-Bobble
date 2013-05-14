@@ -104,7 +104,7 @@ exports.login = function(req, res) {
                     req.session.idUsuari = item._id;
                     console.log(item._id);
                     console.log(req.session.idUsuari);
-                    //res.render('game');
+                    res.render('game');
                     // Cas correcte
                     //console.log(item._id);
                 }
