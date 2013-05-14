@@ -211,7 +211,6 @@ div.top  {
 }
 
 footer {
-	height: 100px;
 	clear: both;
 	width: 100%;
 	margin: 0 auto;
@@ -221,6 +220,43 @@ footer {
 	position: relative;
 	bottom: 0px ;
 }
+
+#footerLeft{
+    width:360px;
+    padding:50px;
+}
+
+footer a{ text-shadow:0 -1px #000, 0 0 5px #000; font-weight:bold; color:#BF5F5F; }
+.credits{ float:right; margin-top:30px; text-align:right; font-weight:bold; text-transform:uppercase; }
+.fbLike{ clear:left; float:left; margin-top:32px; border:none; overflow:hidden; width:370px; height:21px; }
+footer section{ float:left; width:100%; -webkit-transition:.5s; }
+footer section hgroup{ display:table; text-align:center; width:100%; margin:0 auto; -webkit-transform:scaleY(1.5); transform:scaleY(1.5); }
+footer section hgroup:before, footer section hgroup:after{ content:''; display:table-cell; background:#841F1F; width:50%; border-radius:5px; -webkit-transform:scaleY(0.2); transform:scaleY(0.2); opacity:0.5; }
+footer section h2{ display:inline; font:italic 2.1em/1.5 georgia, Serif; white-space:pre; padding:0 15px; text-shadow:0 -2px 1px #111; }
+footer ul{ list-style:none; margin:25px 5px 25px 0; color:#B8B1A4; overflow:hidden; }
+footer ul > li{ position:relative; float:left; clear:left; padding:4px 0 4px 30px; }
+footer ul li::before{
+    display:inline-block;
+    line-height:0;
+    margin:-1px 10px 0 -24px;
+    content:'\2022';
+    color:#111;
+    text-shadow:0 1px rgba(255,255,255,0.15);
+    font-size:3em;
+    vertical-align:middle;
+    -webkit-transition:.3s ease-out;
+    transition:.3s ease-out;
+}
+footer ul li:hover::before{
+    opacity:1;
+    transform:scale(1.5);
+    -webkit-transform:scale(1.5);
+    color:#D6CFC5;
+    text-shadow:0 0 4px #EFCFBD;
+    -webkit-transition:.1s;
+    transition:.1s;
+}
+
 
 /************************ Containers ************************/
 #container, #container_left, #container_right, #containerJoc {

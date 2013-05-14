@@ -7,6 +7,7 @@ head
     link(rel='shortcut icon', href='images/favicon.gif', type='image/x-icon')
     link(rel='stylesheet', type='text/css', href='../css/styles.css')
     script(src='http://code.jquery.com/jquery-1.9.1.js')
+    script(src='js/user.js')
     body
         #container
             .containerHeader
@@ -28,7 +29,7 @@ head
                 a(href='')
                     img.close_button(src='../images/close.png')
                 #popup-login.fontface
-                    form.login(action='/login', method='post')
+                    form.login(action='javascript:ferLogin()', method='post')
                         h2#description3.fontface(style='margin-bottom: 20px;')
                             span.green Login
                         label Username
@@ -41,25 +42,25 @@ head
                         br
                         input#submitbtn-login(type='submit', value='Sign In', tabindex='3')
                 #popup-register.fontface(style='position: absolute; left: 42%;')
-                    form.login(action='/register', method='post')
+                    form.login(action='javascript:ferRegistre()', method='post')
                         h2#description.fontface(style='margin-bottom: 20px; margin-left: 150px;')
                             span.green Register
                         label Username
-                        input.input(type='text', tabindex='4', name='registerUser', required='required', style='margin-left: 7px; width: 150px;')
+                        input.input(type='text', tabindex='4', id='register-user', name='registerUser', required='required', style='margin-left: 7px; width: 150px;')
                         br
                         br
                         label(style='position: absolute; top: 99px; left: 278px;') E-Mail
-                        input.input(type='email', tabindex='5', name='registerEmail',required='required', style='margin-left: 7px; width: 150px; position: absolute; top: 90px; left: 347px;')
+                        input.input(type='email', tabindex='5', id='register-email', name='registerEmail',required='required', style='margin-left: 7px; width: 150px; position: absolute; top: 90px; left: 347px;')
                         label Password
-                        input.input(type='password', tabindex='6', name='registerPass',required='required', style='margin-left: 5px; width: 150px;')
+                        input.input(type='password', tabindex='6', id='register-pass', name='registerPass', placeholder='8 characters...', required='required', style='margin-left: 5px; width: 150px;')
                         br
                         br
                         label(style='font: 14px/18px \'BoycottRegular\', Arial, sans-serif; position: absolute; top: 149px; left: 279px; width: 80px;') Repeat Password
-                        input.input(type='password', tabindex='7', name='registerPass2',required='required', style='margin-left: 5px; width: 150px; position: absolute; top: 147px; left: 349px;')
+                        input.input(type='password', tabindex='7', id='register-pass2', name='registerPass2',required='required', placeholder='8 characters...', style='margin-left: 5px; width: 150px; position: absolute; top: 147px; left: 349px;')
                         br
                         br
                         label(style='position: absolute; top: 214px;') Date of Birth
-                        input.input(type='date', tabindex='8', name='registerBirth',required='required', style='width: 170px; position: absolute; top: 202px; left: 160px;')
+                        input.input(type='date', tabindex='8', id='register-birth', name='registerBirth',required='required', style='width: 170px; position: absolute; top: 202px; left: 160px;')
                         br
                         br
                         input#submitbtn-register(type='submit', value='Sign Up', tabindex='9', style='position: absolute; top: 204px; left: 215px;')

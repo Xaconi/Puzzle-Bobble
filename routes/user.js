@@ -60,15 +60,25 @@ exports.register = function(req, res){
         db.collection('user', function(err, collection) {
             collection.findOne({'name': req.body.registerUser}, function(err, item) {
                 if(item == null){
-                    collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
-                    collection.findOne({'name': req.body.registerUser}, function(err, item) {
-                        req.session.idUsuari = item._id;      // Guardem el ID de l'usuari com ID de la sessió per comprovar
-                                                        // en tot moment que estem tractant amb el mateix usuari
-                        res.render('game');
+                    collection.findOne({'email': req.body.registerEmail}, function(err, item) {
+                        if(item == null){
+                            collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
+                            collection.findOne({'name': req.body.registerUser}, function(err, item) {
+                                req.session.idUsuari = item._id;      // Guardem el ID de l'usuari com ID de la sessió per comprovar
+                                                                // en tot moment que estem tractant amb el mateix usuari
+                                res.send({error : null});
+                            });
+                        }else{
+                            res.send({error : 'email'});
+                        }
                     });
+                }else{
+                    res.send({error : 'userName'});
                 }
             });
         });
+    }else if(!correctData.passLength){
+        res.send({error : 'passLength'});
     }
 };
 
@@ -85,7 +95,8 @@ exports.login = function(req, res) {
         collection.findOne({'name': req.body.loginUser}, function(err, item) {
             if(item == null){
                 // Cas nom malament
-                res.send({ error: 'Nom d\'usuari no trobat. Si us plau, mira que sigui correcte.' });
+                res.send({ error: 'user' });
+                //alert('Nom d\'usuari no trobat. Si us plau, mira que sigui correcte.');
             }
             else
             {
@@ -93,14 +104,14 @@ exports.login = function(req, res) {
                     req.session.idUsuari = item._id;
                     console.log(item._id);
                     console.log(req.session.idUsuari);
-                    res.render('game');
+                    //res.render('game');
                     // Cas correcte
                     //console.log(item._id);
                 }
                 else
                 {
                     // Cas contrasenya malament
-                    res.send({ error: 'Contrasenya incorrecta. Si us plau, mira que sigui correcte.' });
+                    res.send({ error: 'password' });
                 }
             }
             db.close();
