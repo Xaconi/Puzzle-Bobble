@@ -897,3 +897,15 @@ border-bottom: 1px dotted #ccc;}
 .recordTable tr:first-child td:last-child{
     border-width:0px 0px 1px 1px;
 }
+
+#logout{
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    font-size:17px;
+    font-family:BoycottRegular;
+    font-weight:normal;
+    color: rgb(255, 255, 255);
+    cursor:pointer;
+}

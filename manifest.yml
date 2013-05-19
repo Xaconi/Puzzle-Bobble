@@ -1,0 +1,14 @@
+---
+applications:
+  .:
+    name: Puzzle-Booble
+    framework:
+      name: node
+      info:
+        mem: 64M
+        description: Node.js Application
+        exec: 
+    infra: eu-aws
+    url: Puzzle-Booble.eu01.aws.af.cm
+    mem: 128M
+    instances: 1

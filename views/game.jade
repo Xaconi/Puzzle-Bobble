@@ -9,6 +9,7 @@ head
     script(type='text/javascript', src='../js/joc/main.js')
     script(type='text/javascript', src='../js/jquery-1.9.1.min.js')
     script(type='text/javascript', src='../js/record.js')
+    script(type='text/javascript', src='../js/user.js')
     body
         header
             .containerHeaderJoc
@@ -16,6 +17,7 @@ head
                     span.orange ULTIMATE
                     span.pink PUZZLE
                     span.green BUBBLE
+            #logout(onclick='ferLogout()') LOGOUT
             .bottom
         #containerJoc
             section#main
@@ -24,7 +26,10 @@ head
                     br
                     div(align='center')
                         #jsapp
-                        div
+                        p
+                            | Want to report a bug,
+                            a(href='mailto:ultimatepuzzlebubble@gmail.com')
+                                | send us an email
                 aside#sidebar2
                     h2.fontface Top Scores
                     br
@@ -32,11 +37,11 @@ head
                         table
                             tr
                                 td
-                                    a#linkOptionRecord(onclick='recollirRecordsPersonals()') Me
+                                    a#linkOptionRecord(onclick='recollirRecordsPersonals()', style="cursor:pointer") Me
                                 td
-                                    a#linkOptionRecord(onclick='recollirRecordsSetmanals()') Week
+                                    a#linkOptionRecord(onclick='recollirRecordsSetmanals()', style="cursor:pointer") Week
                                 td
-                                    a#linkOptionRecord(onclick='recollirRecordsTotals()') All
+                                    a#linkOptionRecord(onclick='recollirRecordsTotals()', style="cursor:pointer") All
 
                     br
                     .recordTable

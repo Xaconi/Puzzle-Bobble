@@ -1,11 +1,6 @@
-/**
- * Created with JetBrains WebStorm.
- * User: Nico
- * Date: 4/04/13
- * Time: 17:31
- * To change this template use File | Settings | File Templates.
- */
-/** Javascript functions for the users **/
+/*
+* Funcions JavaScript dedicades al control i gestió de les dades de l'usuari
+* */
 
 var min_chars = 4;      // Mínim de caràcters que fan falta per comprovar la disponibilitat del nom de l'usuari
 
@@ -35,6 +30,10 @@ function mirarDisponibilitat(user){
     });
 };
 
+
+/*
+ * Funció de Login per tal que l'usuari pugui accedir al joc i pugui registrar els seus records.
+ * */
 function ferLogin(user){
     $.ajax({
         url: encodeURI('/login'),
@@ -56,6 +55,10 @@ function ferLogin(user){
     });
 };
 
+/*
+ * Funció de Registre per l'usuari, amb les dades introduides per aquest al formulari de registre. redirigeix la web
+ * directament a la pantalla de joc.
+ * */
 function ferRegistre(user){
     $.ajax({
         url: encodeURI('/register'),
@@ -83,3 +86,20 @@ function ferRegistre(user){
         error: function () { }
     });
 };
+
+/*
+ * Funció de Logout per tal que l'usuari pugui esborrar les seves dades de les cookies i pugui tornar a la pantalla
+ * d'inici del joc.
+ * */
+function ferLogout(){
+    $.ajax({
+        url: encodeURI('/logout'),
+        type: 'GET',
+        data: {},
+        contentType: 'application/x-www-form-urlencoded',
+        success: function () {
+            window.location.href = 'http://localhost:3000';
+        },
+        error: function () { }
+    });
+}

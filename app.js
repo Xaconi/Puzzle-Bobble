@@ -41,6 +41,9 @@ app.post('/register', user.register);
 //Login d'un usuari
 app.post('/login', user.login);
 
+//Login d'un usuari
+app.get('/logout', user.logout);
+
 //Mira si un nom d'usuari està disponible
 app.post('/nameAvailable', user.nameAvailable);
 

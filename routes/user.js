@@ -8,29 +8,36 @@
  */
 
 // Dades de connexió i gestió amb la base de dades local
-var mongo = require('mongodb');
+
 var crypto = require('crypto');
 var ObjectID = require('mongodb').ObjectID;
 var algorithm = 'aes256';
 var key = 'La vida 42';
+
 var user_ID;
 
+var mongo = require('mongodb');
 var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
 
-var hostDB = 'localhost';
-var portDB = 27017;
-var nameDB = 'test';
+var hostDB = 'host';
+var portDB = 'port';
+var nameDB = 'dbName';
 
 var server = new Server(hostDB, portDB, {auto_reconnect: true});
 db = new Db(nameDB, server);
 
-
-// Funció per obrir la base de dades i inserir dades automàticament per tal de fer proves.
+/*
+* Funció per obrir la base de dades i inserir dades automàticament per tal de fer proves.
+* */
 db.open(function(err, db) {
     if(!err) {
-        console.log("Connected to 'test' database");
+        db.authenticate("user", "pass", function(err, res) {
+            if(!err) {
+                console.log("Connected to 'test' database as puzzlebubble user!");
+            }
+        });
         db.collection('user', {safe:true}, function(err, collection) {
             if (err) {
                 console.log("The 'user' collection doesn't exist. Creating it with sample data...");
@@ -39,7 +46,9 @@ db.open(function(err, db) {
     }
 });
 
-// Funció per registrar un usuari
+/*
+* Funció per registrar un usuari.
+* */
 exports.register = function(req, res){
 
     // Mirem si el que ens han entrat es correcte
@@ -64,9 +73,9 @@ exports.register = function(req, res){
                         if(item == null){
                             collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
                             collection.findOne({'name': req.body.registerUser}, function(err, item) {
-                                req.session.idUsuari = item._id;      // Guardem el ID de l'usuari com ID de la sessió per comprovar
-                                                                // en tot moment que estem tractant amb el mateix usuari
-                                res.send({error : null});
+                            req.session.idUsuari = item._id;        // Guardem el ID de l'usuari com ID de la sessió per comprovar
+                                                                    // en tot moment que estem tractant amb el mateix usuari
+                                res.render('game');
                             });
                         }else{
                             res.send({error : 'email'});
@@ -82,12 +91,17 @@ exports.register = function(req, res){
     }
 };
 
+/*
+* Funció per comprovar si un string es un correu.
+* */
 function isEmail(email) { //expressió regular que comprova que un email ho és
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
 
-// Funció de login d'un usuari registrat
+/*
+* Funció de login d'un usuari registrat.
+* */
 exports.login = function(req, res) {
     var cipher = crypto.createCipher(algorithm,key);    // Mirem que el password i la repetició de password coincideixin
     var encPass = cipher.update(req.body.loginPass, 'utf8','hex')+cipher.final('hex'); //Ho encriptem perque a la bdd
@@ -131,6 +145,14 @@ exports.nameAvailable = function(req, res) { //Funció que en serveix per que a 
             }
         });
     });
+};
+
+/*
+* /Funció que en serveix per fer el logout de l'usuari esborrant les seves dades de la variable de sessió.
+* */
+exports.logout = function(req, res) {
+    req.session.idUsuari = null;
+    res.render("inici");
 };
 
 
