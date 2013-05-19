@@ -433,6 +433,8 @@ var BallEntity = me.ObjectEntity.extend(
         {
             var posicio = {};
             var pos = (Math.ceil(this.pos.x/this.image.width)*this.image.width)/32 - 1;
+            if( pos < 0 ) pos = 0 ;
+            if( pos > 8 ) pos = 8 ;
             if(pos == 0){
                 if( me.game.boles[fila][pos+1] != 'undefined' && me.game.boles[fila][pos+1] != null &&  ( me.game.boles[fila][pos] != 'undefined' && me.game.boles[fila][pos] == null ) ){
                     posicio.x = me.game.posicions[fila][pos][0];
