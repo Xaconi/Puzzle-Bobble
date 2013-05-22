@@ -54,6 +54,7 @@ exports.recollirRecordsSetmanals = function(req, res){
         diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
         var start = new Date(d.setDate(diff));
         var end = new Date();
+        //if(start.getTime() == end.getTime()) start = new Date(d.setDate(diff-1));
         collection.find({date : {$gte: start, $lt: end}}).limit(10).sort({ "score" : -1 }).toArray(function(err, items){
             res.jsonp(items);
         });

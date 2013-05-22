@@ -21,9 +21,9 @@ var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
 
-var hostDB = 'host';
-var portDB = 'port';
-var nameDB = 'dbName';
+var hostDB = 'ds061797.mongolab.com';
+var portDB = 61797;
+var nameDB = 'af_ultimatepuzzlebubble-xaco_89';
 
 var server = new Server(hostDB, portDB, {auto_reconnect: true});
 db = new Db(nameDB, server);
@@ -33,7 +33,7 @@ db = new Db(nameDB, server);
 * */
 db.open(function(err, db) {
     if(!err) {
-        db.authenticate("user", "pass", function(err, res) {
+        db.authenticate("puzzlebubble", "puzzlebubble", function(err, res) {
             if(!err) {
                 console.log("Connected to 'test' database as puzzlebubble user!");
             }
@@ -71,11 +71,17 @@ exports.register = function(req, res){
                 if(item == null){
                     collection.findOne({'email': req.body.registerEmail}, function(err, item) {
                         if(item == null){
-                            collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth});
-                            collection.findOne({'name': req.body.registerUser}, function(err, item) {
-                            req.session.idUsuari = item._id;        // Guardem el ID de l'usuari com ID de la sessió per comprovar
-                                                                    // en tot moment que estem tractant amb el mateix usuari
-                                res.render('game');
+                            collection.insert({'name': req.body.registerUser, 'password' : encPassc, 'email' : req.body.registerEmail, 'date' : req.body.registerBirth}, function(){
+                                collection.findOne({'name': req.body.registerUser}, function(err, item) {
+                                    if(typeof item._id != 'undefined' && item._id != null){
+                                        trobat = true;
+                                        req.session.idUsuari = item._id;        // Guardem el ID de l'usuari com ID de la sessió per comprovar
+                                        // en tot moment que estem tractant amb el mateix usuari
+                                        res.render('game');
+                                    }else{
+                                        i++;
+                                    }
+                                });
                             });
                         }else{
                             res.send({error : 'email'});

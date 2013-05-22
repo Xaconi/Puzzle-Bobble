@@ -42,7 +42,7 @@ function ferLogin(user){
         contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             if(typeof data.error == 'undefined'){
-                window.location.href = 'http://localhost:3000/game';
+                window.location.href = 'http://ultimatepuzzlebubble.eu01.aws.af.cm/game';
             }else{
                 if(typeof data.error != 'undefined' && data.error != null && data.error == 'user'){
                     $('#login-user').css('background-color','rgb(247, 89, 89)');
@@ -67,7 +67,7 @@ function ferRegistre(user){
         contentType: 'application/x-www-form-urlencoded',
         success: function (data) {
             if(typeof data.error == 'undefined'){
-                window.location.href = 'http://localhost:3000/game';
+                window.location.href = 'http://ultimatepuzzlebubble.eu01.aws.af.cm/game';
             }else{
                 $('#register-pass').css('background-color','#FFFFFF');
                 $('#register-pass2').css('background-color','#FFFFFF');
@@ -98,7 +98,7 @@ function ferLogout(){
         data: {},
         contentType: 'application/x-www-form-urlencoded',
         success: function () {
-            window.location.href = 'http://localhost:3000';
+            window.location.href = 'http://ultimatepuzzlebubble.eu01.aws.af.cm/';
         },
         error: function () { }
     });

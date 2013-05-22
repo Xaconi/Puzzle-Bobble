@@ -35,6 +35,11 @@ app.get('/', function(req,res){
     res.render('inici');
 });
 
+//Web de la presentació del projecte...
+app.get('/presentation', function(req,res){
+    res.render('presentation');
+});
+
 //Registre d'un usuari
 app.post('/register', user.register);
 

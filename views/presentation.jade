@@ -1,0 +1,241 @@
+!!! 5
+html
+head
+    title Presentation
+    meta(charset='utf-8')
+    script(src='http://html5slides.googlecode.com/svn/trunk/slides.js')
+    link(rel='stylesheet', type='text/css', href='../css/stylesPresentacio.css')
+    style
+
+    body(style='display: none;')
+        section.slides.layout-regular.template-default
+            article(style="background: white url(../images/titol.PNG) 50% 50% no-repeat; background-size:80%;")
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h1
+                    | Title Goes Here Up
+                    br
+                    | To Two Lines
+                p
+                    | Sergey Brin
+                    br
+                    | May 10, 2011
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                p
+                    | This is a slide with just text. This is a slide with just text.
+                    | This is a slide with just text. This is a slide with just text.
+                    | This is a slide with just text. This is a slide with just text.
+                p
+                    | There is more text just underneath.
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Simple slide with header and text
+                p
+                    | This is a slide with just text. This is a slide with just text.
+                    | This is a slide with just text. This is a slide with just text.
+                    | This is a slide with just text. This is a slide with just text.
+                p
+                    | There is more text just underneath with a
+                    code code sample: 5px
+                    | .
+            article.smaller(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Simple slide with header and text (small font)
+                p
+                    | This is a slide with just text. This is a slide with just text.
+                    | This is a slide with just text. This is a slide with just text.
+                    | This is a slide with just text. This is a slide with just text.
+                p
+                    | There is more text just underneath with a
+                    code code sample: 5px
+                    | .
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Slide with bullet points and a longer title, just because we
+                    | can make it longer
+                ul
+                    li
+                        | Use this template to create your presentation
+                    li
+                        | Use the provided color palette, box and arrow graphics, and
+                        | chart styles
+                    li
+                        | Instructions are provided to assist you in using this
+                        | presentation template effectively
+                    li
+                        | At all times strive to maintain Google's corporate look and feel
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Slide with bullet points that builds
+                ul.build
+                    li
+                        | This is an example of a list
+                    li
+                        | The list items fade in
+                    li
+                        | Last one!
+                .build
+                    p Any element with child nodes can build.
+                    p It doesn't have to be a list.
+            article.smaller(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Slide with bullet points (small font)
+                ul
+                    li
+                        | Use this template to create your presentation
+                        li
+                            | Use the provided color palette, box and arrow graphics, and
+                            | chart styles
+                            li
+                                | Instructions are provided to assist you in using this
+                                | presentation template effectively
+                                li
+                                    | At all times strive to maintain Google's corporate look and feel
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Slide with a table
+                table
+                    tr
+                        th
+                            | Name
+                            th
+                                | Occupation
+                                tr
+                                    td
+                                        | Luke Mahé
+                                        td
+                                            | V.P. of Keepin’ It Real
+                                            tr
+                                                td
+                                                    | Marcin Wichary
+                                                    td
+                                                        | The Michael Bay of Doodles
+            article.smaller(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Slide with a table (smaller text)
+                table
+                    tr
+                        th
+                            | Name
+                            th
+                                | Occupation
+                                tr
+                                    td
+                                        | Luke Mahé
+                                        td
+                                            | V.P. of Keepin’ It Real
+                                            tr
+                                                td
+                                                    | Marcin Wichary
+                                                    td
+                                                        | The Michael Bay of Doodles
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Styles
+                ul
+                    li
+                        span.red class="red"
+                        li
+                            span.blue class="blue"
+                            li
+                                span.green class="green"
+                                li
+                                    span.yellow class="yellow"
+                                    li
+                                        span.black class="black"
+                                        li
+                                            span.white class="white"
+                                            li
+                                                b bold
+                                                | and
+                                                i italic
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h2
+                    | Segue slide
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Slide with an image
+                p
+                    img(style='height: 500px;', src='images/example-graph.png')
+                .source
+                    | Source: Sergey Brin
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Slide with an image (centered)
+                p
+                    img.centered(style='height: 500px;', src='images/example-graph.png')
+                .source
+                    | Source: Larry Page
+            article.fill(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | Image filling the slide (with optional header)
+                p
+                    img(src='images/example-cat.jpg')
+                .source.white
+                    | Source: Eric Schmidt
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | This slide has some code
+                section
+                    pre.
+                      \n<script type='text/javascript'>
+                        // Say hello world until the user starts questioning
+                        // the meaningfulness of their existence.
+                        function helloWorld(world) {
+                          for (var i = 42; --i >= 0;) {
+                            alert('Hello ' + String(world));
+                          }
+                        }
+                      </script>
+                      <style>
+                        p { color: pink }
+                        b { color: blue }
+                        u { color: 'umber' }
+                      </style>
+
+            article.smaller(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                h3
+                    | This slide has some code (small font)
+                section
+                    pre.
+                      \n<script type='text/javascript'>
+                        // Say hello world until the user starts questioning
+                        // the meaningfulness of their existence.
+                        function helloWorld(world) {
+                          for (var i = 42; --i >= 0;) {
+                            alert('Hello ' + String(world));
+                          }
+                        }
+                      </script>
+                      <style>
+                        p { color: pink }
+                        b { color: blue }
+                        u { color: 'umber' }
+                      </style>
+
+            article(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                q
+                    | The best way to predict the future is to invent it.
+                .author
+                    | Alan Kay
+            article.smaller(style="background: white url(../images/titol.PNG) 710px 625px no-repeat;background-size: 20%;")
+                q
+                    | A distributed system is one in which the failure of a computer
+                    | you didn’t even know existed can render your own computer unusable.
+                .author
+                    | Leslie Lamport
+            article.nobackground
+                h3
+                    | A slide with an embed + title
+                iframe(src='http://www.google.com/doodle4google/history.html')
+            article.nobackground
+                iframe(src='http://www.google.com/doodle4google/history.html')
+            article.fill
+                h3
+                    | Full-slide embed with (optional) slide title on top
+                iframe(src='http://www.google.com/doodle4google/history.html')
+            article
+                h3
+                    | Thank you!
+                ul
+                    li
+                        a(href='http://www.google.com') google.com
